@@ -1,14 +1,35 @@
 package leetcode.graph;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class GraphSolution {
 
+    private static final int MAX_ROW = 5;
+    private static final int MAX_COL = 5;
+    /*
+    predecessor[4][4]是坐标为(3, 4)的点，就表示从(3, 4)走到了(4, 4)
+     */
+    private Point[][] predecessor;
+    private static int[][] maze = {
+            {0, 1, 0, 0, 0},
+            {0, 1, 0, 1, 0},
+            {0, 0, 0, 0, 0},
+            {0, 1, 1, 1, 0},
+            {0, 0, 0, 1, 0}
+
+    };
     private Map<Integer, List<Integer>> map =new HashMap<Integer, List<Integer>>();
+    private Stack<Point> stack = new Stack<Point>();
+
+    public GraphSolution() {
+        this.predecessor = new Point[MAX_ROW][MAX_COL];
+        for (int i = 0; i < MAX_ROW; i++) {
+            for (int j = 0; j < MAX_COL; j++) {
+                predecessor[i][j] = new Point(-1,-1);
+            }
+        }
+    }
 
     //no.207 Course Schedule
     public boolean canFinish(int numCourses, int[][] prerequisites) {
@@ -46,5 +67,87 @@ public class GraphSolution {
             }
         }
         return false;
+    }
+
+    /*
+    int maze[5][5] = {
+
+     0, 1, 0, 0, 0,
+
+     0, 1, 0, 1, 0,
+
+     0, 0, 0, 0, 0,
+
+     0, 1, 1, 1, 0,
+
+     0, 0, 0, 1, 0,
+
+    };
+
+    它表示一个迷宫，其中的1表示墙壁，0表示可以走的路，只能横着走或竖着走，不能斜着走，要求编程序找出从左上角到右下角的路线
+    */
+
+    public void findPath() {
+
+        //起点
+        Point point = new Point(0,0);
+
+        //走过的路用2表示
+        maze[point.getRow()][point.getCol()] = 2;
+        stack.push(point);
+        while (!stack.empty()) {
+            point = stack.pop();
+            if (point.getRow() == MAX_ROW -1 &&
+                point.getCol() == MAX_COL - 1) {
+                break;  //到达终点
+            }
+
+            if (point.getCol() + 1 < MAX_COL &&
+                maze[point.getRow()][point.getCol() + 1] == 0) {
+                visit(point.getRow(), point.getCol() + 1, point); //向右走
+            }
+
+            if (point.getRow() + 1 < MAX_ROW &&
+                maze[point.getRow() + 1][point.getCol()] == 0) {
+                visit(point.getRow() + 1, point.getCol() + 1, point); //向下走
+            }
+
+            if (point.getCol() - 1 >= 0 &&
+                maze[point.getRow()][point.getCol() - 1] == 0) {
+                visit(point.getRow(), point.getCol() - 1, point); //向左走
+            }
+
+            if (point.getRow() - 1 >= 0 &&
+                maze[point.getRow() - 1][point.getCol()] == 0) {
+                visit(point.getRow() - 1, point.getCol(), point);
+            }
+            printMaze();
+        }
+
+        if (point.getRow() == MAX_ROW - 1 && point.getCol() == MAX_COL - 1) {  //找到终点
+            System.out.printf("(%d, %d)\n", point.getRow(),point.getCol());
+            while (this.predecessor[point.getRow()][point.getCol()].getRow() != -1) {
+                point = predecessor[point.getRow()][point.getCol()];
+                System.out.printf("(%d, %d)\n", point.getRow(),point.getCol());
+            }
+        } else {
+            System.out.println("No path!\n");
+        }
+    }
+
+    private void visit(int row, int col, Point prePoint) {
+        Point visitPoint = new Point(row, col);
+        maze[row][col] = 2;
+        predecessor[row][col] = prePoint;
+        stack.push(visitPoint); //走过的点压栈便于后面回溯或者打印路线
+    }
+
+    private void printMaze() {
+        for (int i = 0; i < MAX_ROW; i++) {
+            for (int j = 0; j < MAX_COL; j++) {
+                System.out.println(maze[i][j]);
+            }
+        }
+        System.out.println("*******");
     }
 }
