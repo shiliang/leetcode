@@ -1,7 +1,10 @@
 package leetcode.array;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 public class ArrayAlgo {
     //快排
@@ -54,6 +57,7 @@ public class ArrayAlgo {
         return leftSum + rightSum;
     }
 
+    //no.31
     public void nextPermutation(int[] nums) {
         int len = nums.length;
         if (len < 2) return;
@@ -78,19 +82,14 @@ public class ArrayAlgo {
             }
         } else {
             //在nums[k+1,n-1]中寻找大于nums[k]的最小数
-            int index = 0;
             for (int i = len - 1; i > k ; i--) {
                 if (nums[i] > nums[k]) {
                     swap(nums, i, k);
-                    index = i;
                     break;
                 }
 
             }
 
-            if (index == 0) {
-                swap(nums, k, len - 1);
-            }
 
             //将nums[k+1,n-1]逆序
             for (int i = k + 1; i < (k + len + 2) / 2; i++) {
@@ -107,6 +106,26 @@ public class ArrayAlgo {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    //没有重复数字的全排列,no46
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        backtrack(list, new ArrayList<Integer>(), nums);
+        return list;
+    }
+
+    private void backtrack(List<List<Integer>> list, List<Integer> tmpList, int[] nums) {
+        if (tmpList.size() == nums.length) {
+            list.add(new ArrayList<Integer>(tmpList));
+        } else {
+            for (int i = 0; i < nums.length; i++) {
+                if (tmpList.contains(nums[i])) continue;  //如果已经在临时链表中的表示已经递归过
+                tmpList.add(nums[i]);
+                backtrack(list, tmpList, nums);
+                tmpList.remove(tmpList.size() - 1);
+            }
+        }
     }
 
 

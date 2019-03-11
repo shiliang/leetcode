@@ -2,6 +2,9 @@ package leetcode.array;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ArrayAlgoTest {
@@ -21,5 +24,14 @@ public class ArrayAlgoTest {
         int[] nums = {1,2,3};
         algo.nextPermutation(nums);
 
+    }
+
+    @Test
+    public void Permu() {
+        ArrayAlgo algo = new ArrayAlgo();
+        List<List<Integer>> list = new ArrayList<>();
+        int[] nums = {1,2,3};
+        list = algo.permute(nums);
+        
     }
 }
