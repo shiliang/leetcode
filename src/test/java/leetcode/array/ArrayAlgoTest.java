@@ -34,4 +34,18 @@ public class ArrayAlgoTest {
         list = algo.permute(nums);
         
     }
+
+    int[] input = {5,4,3,2,1};
+
+    @Test
+    public void partition() {
+        ArrayAlgo algo = new ArrayAlgo();
+        algo.quickSort(input,0,input.length - 1);
+        //algo.partition(input,0,input.length -1);
+
+        for (int e: input
+             ) {
+            System.out.print(e);
+        }
+    }
 }

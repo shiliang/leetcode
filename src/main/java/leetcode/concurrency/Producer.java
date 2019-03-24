@@ -2,36 +2,35 @@ package leetcode.concurrency;
 
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.BlockingQueue;
 
-public class Producer extends Thread {
-    private Queue<Integer> queue;
-    private int maxSize;
+public class Producer implements Runnable {
+    private BlockingQueue<Message> queue;
 
-    public Producer(Queue<Integer> queue, int maxSize, String name) {
-        super(name);
-        this.queue = queue;
-        this.maxSize = maxSize;
+    public Producer(BlockingQueue<Message> q) {
+        this.queue = q;
     }
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (queue) {
-                while (queue.size() == maxSize) {
-                    try {
-
-                        System.out .println("Queue is full, " + "Producer thread waiting for " + "consumer to take something from queue");
-                        queue.wait();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                Random random = new Random();
-                int i = random.nextInt();
-                System.out.println("Producing value : " + i);
-                queue.add(i); queue.notifyAll();
+        for (int i = 0; i < 100; i++) {
+            Message msg = new Message(""+i);
+            try {
+                Thread.sleep(i);
+                queue.put(msg);
+                System.out.println("Produced " + msg.getMsg());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+
+        //添加退出消息
+        Message msg = new Message("exit");
+        try {
+            queue.put(msg);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -1,20 +1,49 @@
 package leetcode.array;
 
+import sun.tools.jconsole.inspector.Utils;
+
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class ArrayAlgo {
     //快排
-    /*public void quickSort(int[] input, int start, int end) {
+    public void quickSort(int[] input, int start, int end) {
         if (start >= end) return;
 
         int index = partition(input, start, end);
         quickSort(input, start, index - 1);
         quickSort(input, index + 1, end);
-    }*/
+    }
+
+    public int partition(int[] input, int low, int high) {
+        int pivot = input[low];  //选择最低点作为支点
+        while (low < high) {
+            //从后面开始比较，小于支点的填入前面的坑
+            while (low < high && input[high] >= pivot) high--;
+            if (low < high) {
+                input[low] = input[high];
+                low++;
+            }
+
+            //从前往后找，大于支点的填入后面的坑
+            while (low < high && input[low] <= pivot) low++;
+            if (low < high) {
+                input[high] = input[low];
+                high--;
+            }
+
+        }
+
+        //最后把支点的值赋值
+        input[low] = pivot;
+        return low;  //返回支点的下标
+    }
+
+    private void quickSwap(int[] input, int i, int j) {
+        int tmp = input[i];
+        input[i] = input[j];
+        input[j] = tmp;
+    }
 
     //求最大连续子数组采用分治方法
     public int maxSubArray(int[] nums) {
@@ -127,6 +156,7 @@ public class ArrayAlgo {
             }
         }
     }
+
 
 
 }

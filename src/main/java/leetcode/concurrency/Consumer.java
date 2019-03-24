@@ -1,32 +1,28 @@
 package leetcode.concurrency;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
-public class Consumer extends Thread {
-    private Queue<Integer> queue;
-    private int maxSize;
+public class Consumer implements Runnable {
 
-    public Consumer(Queue<Integer> queue, int maxSize, String name) {
-        super(name);
-        this.queue = queue;
-        this.maxSize = maxSize;
+    private BlockingQueue<Message> queue;
+
+    public Consumer(BlockingQueue<Message> q) {
+        this.queue = q;
     }
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (queue) {
-                while (queue.isEmpty()) {
-                    System.out.println(Thread.currentThread().getName() + "is Empty waiting for producer");
-                    try {
-                        queue.wait();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println("Consuming value : " + queue.remove());
-                queue.notifyAll();
+
+        try {
+            Message msg;
+            while (!(msg = queue.take()).getMsg().equals("exit") ) {
+                Thread.sleep(10);
+                System.out.println("Consumed" + msg.getMsg());
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
     }
 }

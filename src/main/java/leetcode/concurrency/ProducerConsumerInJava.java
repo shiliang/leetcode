@@ -2,21 +2,22 @@ package leetcode.concurrency;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class ProducerConsumerInJava {
 
     public static void main(String args[]) {
-        System.out.println("How to use wait and notify method in Java");
-        System.out.println("Solving Producer Consumper Problem");
-        Queue<Integer> buffer = new LinkedList<>();  //共享队列内存
-        int maxSize = 10;
-        Thread producer = new Producer(buffer, maxSize, "PRODUCER");
-        Thread consumer1 = new Consumer(buffer, maxSize, "CONSUMER1");
-        Thread consumer2 = new Consumer(buffer, maxSize, "CONSUMER2");
+     //创建大小为10的 BlockingQueue
+        BlockingQueue<Message> queue = new ArrayBlockingQueue<>(10);
+        Producer producer = new Producer(queue);
+        Consumer consumer = new Consumer(queue);
+        //开启 producer线程向队列中生产消息
+        new Thread(producer).start();
+        //开启 consumer线程 中队列中消费消息
+        new Thread(consumer).start();
+        System.out.println("Producer and Consumer has been started");
 
-        producer.start();
-        consumer1.start();
-        consumer2.start();
     }
 }
 
