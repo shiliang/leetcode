@@ -1,8 +1,5 @@
 package leetcode.array;
 
-import sun.tools.jconsole.inspector.Utils;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ArrayAlgo {
@@ -152,10 +149,49 @@ public class ArrayAlgo {
                 if (tmpList.contains(nums[i])) continue;  //如果已经在临时链表中的表示已经递归过
                 tmpList.add(nums[i]);
                 backtrack(list, tmpList, nums);
-                tmpList.remove(tmpList.size() - 1);
+                tmpList.remove(tmpList.size() - 1); //把后面的数字除去添加其他数字
             }
         }
     }
+
+    //no.78求数组的子集
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> lists = new ArrayList<>();
+        subsetsBacktrack(lists, new ArrayList<Integer>(), nums, 0);
+
+        return lists;
+    }
+
+    private void subsetsBacktrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start) {
+        list.add(new ArrayList<>(tempList));
+        for (int i = start; i < nums.length; i++) {
+            tempList.add(nums[i]);
+            subsetsBacktrack(list, tempList, nums, i + 1);
+            tempList.remove(tempList.size() - 1);
+
+        }
+
+    }
+
+    //no.322 换硬币
+    public int coinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        //dp[i]表示到金额i所需要的最小硬币数
+        for (int i = 1; i <= amount; i++ ) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {  //如果不满足条件说明硬币的大小大于所需要的金额
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1); //加上硬币j
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+    
+
+
 
 
 

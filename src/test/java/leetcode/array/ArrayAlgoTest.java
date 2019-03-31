@@ -35,7 +35,7 @@ public class ArrayAlgoTest {
         
     }
 
-    int[] input = {5,4,3,2,1};
+    int[] input = {1,2,3};
 
     @Test
     public void partition() {
@@ -47,5 +47,17 @@ public class ArrayAlgoTest {
              ) {
             System.out.print(e);
         }
+    }
+
+    @Test
+    public void coinChange() {
+        ArrayAlgo algo = new ArrayAlgo();
+        algo.coinChange(input,11);
+    }
+
+    @Test
+    public void subsets() {
+        ArrayAlgo algo = new ArrayAlgo();
+        algo.subsets(input);
     }
 }
