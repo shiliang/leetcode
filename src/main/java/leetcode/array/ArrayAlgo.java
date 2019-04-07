@@ -190,7 +190,28 @@ public class ArrayAlgo {
         return dp[amount] > amount ? -1 : dp[amount];
     }
     
+    //求立方根，牛顿迭代法
+    public void getCubeRoot(double input) {
+        double y = input;
+        double x0 = 1.0;
+        double x1 = (2*x0 + y/x0/x0) / 3;  //第一次迭代
+        while (Math.abs(x1*x1*x1 - y) > 0.00001) {
+            x0 = x1;
+            x1 = (2*x0 + y/x0/x0) / 3;
+        }
+        System.out.printf("%.1f",x1);
 
+    }
+
+    //约瑟夫环,编号从0开始
+    public int josephus(int n, int m) {
+        int[] f = new int[n+1];
+        f[1] = 0;  //只有一个人的时候编号0的出列
+        for (int i = 2; i <= n; i++) {
+            f[i] = (f[i-1] + m) % i;
+        }
+        return f[n];
+    }
 
 
 

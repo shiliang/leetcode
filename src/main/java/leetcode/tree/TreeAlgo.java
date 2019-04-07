@@ -1,7 +1,6 @@
 package leetcode.tree;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class TreeAlgo {
     // Encodes a tree to a single string.
@@ -35,5 +34,53 @@ public class TreeAlgo {
         root.left = preOrder(que);
         root.right = preOrder(que);
         return root;
+    }
+
+    public ArrayList<ArrayList<Integer>> PrintByZigZag(TreeNode pRoot) {
+        if (pRoot == null) return null;
+        Deque<TreeNode> dq = new LinkedList<>();
+        ArrayList<Integer> tempList = new ArrayList<>();
+        ArrayList<ArrayList<Integer> > res = new ArrayList<>();
+        boolean lr = true; //打印顺序
+        TreeNode head = pRoot;
+        TreeNode last = head;
+        TreeNode nLast = null;
+        dq.offerFirst(head);
+        while (!dq.isEmpty()) {
+            if (lr) {  //从左到右打印，尾部进顶部弹出左子树先入右子树后入
+                head = dq.pollFirst();
+                tempList.add(head.val);
+                if (head.left != null) {
+                    nLast = nLast == null ? head.left : nLast;
+                    dq.offerLast(head.left);
+                }
+                if (head.right != null) {
+                    nLast = nLast == null ? head.right : nLast;
+                    dq.offerLast(head.right);
+                }
+
+            } else {  //从右到左打印，顶部进入右子树先进，底部弹出
+                head = dq.pollLast();
+                tempList.add(head.val);
+                if (head.right != null) {
+                    nLast = nLast == null ? head.right : nLast;
+                    dq.offerFirst(head.right);
+                }
+                if (head.left != null) {
+                    nLast = nLast == null ? head.left : nLast;
+                    dq.offerFirst(head.left);
+                }
+
+            }
+            if (head == last && !dq.isEmpty()) {
+                lr = !lr;  //改变方向
+                last = nLast;
+                nLast = null;
+                res.add(tempList);
+                tempList.clear();
+            }
+
+        }
+        return res;
     }
 }

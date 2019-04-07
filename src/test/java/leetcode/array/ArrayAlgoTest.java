@@ -60,4 +60,17 @@ public class ArrayAlgoTest {
         ArrayAlgo algo = new ArrayAlgo();
         algo.subsets(input);
     }
+
+    @Test
+    public void getCubeRoot() {
+        ArrayAlgo algo = new ArrayAlgo();
+        algo.getCubeRoot(216);
+    }
+
+    @Test
+    public void josephus() {
+        ArrayAlgo algo = new ArrayAlgo();
+        int res = algo.josephus(10,3);
+        System.out.println(res);
+    }
 }

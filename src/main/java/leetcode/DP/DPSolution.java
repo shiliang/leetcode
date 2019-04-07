@@ -49,7 +49,7 @@ public class DPSolution {
         return dist;
     }
 
-    //no.516并打印出字符串
+    //no.516并打印出字符串，最长回文子串
     public int longestPalindromeSubseq(String s) {
         int[][] dp = new int[s.length()][s.length()];
         //从i开始到j结束

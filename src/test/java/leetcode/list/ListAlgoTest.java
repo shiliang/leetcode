@@ -10,6 +10,6 @@ public class ListAlgoTest {
     public void permute() {
         int[] input = {1,2,3,3};
         ListAlgo la = new ListAlgo();
-        la.permute(input);
+        //la.permute(input);
     }
 }
