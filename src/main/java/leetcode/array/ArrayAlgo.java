@@ -42,6 +42,32 @@ public class ArrayAlgo {
         input[j] = tmp;
     }
 
+    //数组中出现次数超过长度的一半
+    public int MoreThanHalfNum_Solution(int [] array) {
+        int len = array.length;
+        if (len == 0) return 0;
+        int result = array[0];
+        int times = 1;
+        for (int i = 1; i < len; i++) {
+            if (times == 0) {
+                result = array[i];
+                times = 1;
+            } else if (array[i] == result) {
+                times++;
+            } else {
+                times--;
+            }
+        }
+        //检查result是否过半
+        int count = 0;
+        for (int val: array
+             ) {
+            if (val == result) count++;
+        }
+        if (count <= len / 2) return 0;
+        return result;
+    }
+
     //求最大连续子数组采用分治方法
     public int maxSubArray(int[] nums) {
         int low = 0, high = nums.length - 1;
@@ -211,6 +237,43 @@ public class ArrayAlgo {
             f[i] = (f[i-1] + m) % i;
         }
         return f[n];
+    }
+
+    //两个有序的数组找中位数
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        //如果n1大于n2交换一下
+        if (n1 > n2) return findMedianSortedArrays(nums2, nums1);
+
+        int k = (n1 + n2 + 1) / 2;
+        int left = 0;
+        int right = n1;
+        //对小的数组进行二分法搜索
+        //m1和m2指合成数组中nums1数组占前m1个元素,nums2数组占前m2个元素, m1+m2=k
+        while (left < right) {
+            int m1 = left + (right - left) / 2;
+            int m2 = k - m1;
+            //如果小的话num1中m个元素太少继续增加
+            if (nums1[m1] < nums2[m2 - 1]) {
+                left = m1 + 1;
+            } else {
+                right = m1;
+            }
+        }
+        int m1 = left;
+        int m2 = k - left;
+        int c1 = Math.max(m1 <= 0 ? Integer.MIN_VALUE : nums1[m1 - 1],
+                m2 <= 0 ? Integer.MIN_VALUE : nums2[m2 - 1] );
+
+        if ((n1 + n2) % 2 == 1) {
+            return c1;
+        }
+
+        //偶数的中位数
+        int c2 = Math.min(m1 >= n1 ? Integer.MAX_VALUE : nums1[m1],
+                         m2 >= n2 ? Integer.MAX_VALUE: nums2[m2]);
+        return (c1 + c2)  * 0.5;
     }
 
 

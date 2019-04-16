@@ -13,14 +13,14 @@ public class StringAlgoTest {
     }
 
     @Test
-    public void pri() {
-        int num = 0;
-        foo(num);
-        System.out.println(num);
-
+    public void cal() {
+        StringAlgo stringAlgo = new StringAlgo();
+        int res = stringAlgo.calculate("3+2*2");
     }
 
-    public void foo(int value) {
-        value = 100;
+    @Test
+    public void decodeString() {
+        StringAlgo stringAlgo = new StringAlgo();
+        String a = stringAlgo.decodeString("3[a]2[bc]");
     }
 }

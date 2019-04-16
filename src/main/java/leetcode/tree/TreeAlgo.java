@@ -83,4 +83,45 @@ public class TreeAlgo {
         }
         return res;
     }
+
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        if (pre.length == 0 || in.length == 0) return null;
+        int len = pre.length;
+        return constructCore(pre, in,0,len-1,0,len-1);
+    }
+
+    public TreeNode constructCore(int[] pre, int[] in,
+                                  int startPreorder, int endPreorder,
+                                  int startInorder, int endInorder) {
+        int rootValue = pre[startPreorder];
+        TreeNode root = new TreeNode(0);
+        root.val = rootValue;
+        root.left = root.right = null;
+        if ((startPreorder == endPreorder) && (startInorder == endInorder)) {
+            return root;
+        }
+
+        //在中序中遍历根节点的值
+        int rootInorder = startInorder;
+        while (rootInorder <= endInorder && rootValue != in[rootInorder]) {
+            rootInorder++;
+        }
+        int leftLength = rootInorder - startInorder;
+        int leftPreorderLength = startPreorder + leftLength;
+
+        //构建左子树
+        if (leftLength > 0) {
+            root.left = constructCore(pre, in,
+                    startPreorder + 1, startPreorder + leftLength,
+                    startInorder, rootInorder - 1);
+        }
+
+        //构建右子树
+        if(leftLength < (endPreorder-startPreorder)) {
+            root.right = constructCore(pre, in,
+                    leftPreorderLength + 1, endPreorder,
+                    rootInorder + 1, endInorder);
+        }
+        return root;
+    }
 }
