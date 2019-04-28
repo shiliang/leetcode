@@ -124,4 +124,101 @@ public class TreeAlgo {
         }
         return root;
     }
+
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+        queue.offer(root);
+        while (queue.size() != 0) {
+            TreeNode temp = queue.poll();
+            if (temp.left != null) {
+                queue.offer(temp.left);
+            }
+
+            if (temp.right != null) {
+                queue.offer(temp.right);
+            }
+            result.add(temp.val);
+        }
+        return result;
+    }
+
+
+    //判断数组是不是后序遍历
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if (sequence.length == 0) return false;
+        boolean result = isVerify(sequence, 0, sequence.length - 1);
+        return result;
+    }
+
+    public boolean isVerify(int[] sequence, int start, int end) {
+        if (start >= end) return true;
+        int root = sequence[end];
+        int seprator = start;
+        while (sequence[seprator] < root) {
+            seprator++;
+        }
+        //递归左边
+        boolean isLeftVerify = isVerify(sequence, start, seprator - 1);
+
+        //判断右边节点是不是都比根节点大
+        boolean isRightVerify = true;
+
+        for (int i = seprator; i < end; i++) { //end为根节点
+            if (sequence[i] < root) {
+                isRightVerify = false;
+                break;
+            }
+        }
+
+        //再递归判断右边部分是否满足后序序列
+        if (isRightVerify) {
+            isRightVerify = isVerify(sequence, seprator, end - 1);
+        }
+
+        return isLeftVerify && isRightVerify;
+    }
+
+
+    //打印和为某一值的路径
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+
+        int currentSum = 0;
+        ArrayList<Integer> path = new ArrayList<>();
+        printPath(res, path, root, target, currentSum);
+        return res;
+
+    }
+
+    private void printPath(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> path,
+                           TreeNode root, int target, int currentSum) {
+
+        currentSum += root.val;
+        path.add(root.val);
+        boolean isLeaf = (root.left == null && root.right == null);
+        if (currentSum == target && isLeaf) {
+            ArrayList<Integer> copyPath = new ArrayList<>();
+            copyPath.addAll(path);
+            res.add(copyPath);
+        }
+
+        if (root.left != null) {
+            printPath(res, path, root.left, target, currentSum);
+        }
+
+        if (root.right != null) {
+            printPath(res, path, root.right, target, currentSum);
+        }
+
+        //返回父节点删除当前的节点
+        currentSum -= root.val;
+        path.remove(path.size() - 1);
+    }
+
+
+
+
 }

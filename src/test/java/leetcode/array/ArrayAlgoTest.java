@@ -73,4 +73,33 @@ public class ArrayAlgoTest {
         int res = algo.josephus(10,3);
         System.out.println(res);
     }
+
+    @Test
+    public void GetUglyNumber_Solution() {
+        ArrayAlgo algo = new ArrayAlgo();
+        int res = algo.GetUglyNumber_Solution(2);
+        System.out.println(res);
+    }
+
+    @Test
+    public void FindNumbersWithSum() {
+        ArrayAlgo algo = new ArrayAlgo();
+        int[] input = {1,2,4,7,11,15};
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        res = algo.FindNumbersWithSum(input, 15);
+
+    }
+
+    @Test
+    public void reverseString() {
+        ArrayAlgo algo = new ArrayAlgo();
+        char[] input = {'h','e','l','l','o'};
+        algo.reverseString(input);
+    }
+
+    @Test
+    public void NumberOf1Between1AndN_Solution() {
+        ArrayAlgo algo = new ArrayAlgo();
+        int res = algo.NumberOf1Between1AndN_Solution(23);
+    }
 }

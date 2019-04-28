@@ -74,4 +74,26 @@ public class TreeAlgoTest {
         int[] in = {4,7,2,1,5,3,8,6};
         TreeNode node = treeAlgo.reConstructBinaryTree(pre, in);
     }
+
+    @Test
+    public void VerifySquenceOfBST() {
+        TreeAlgo treeAlgo = new TreeAlgo();
+        int[] input = {5,7,6,9,11,10,8};
+        boolean res = treeAlgo.VerifySquenceOfBST(input);
+    }
+
+    @Test
+    public void FindPath() {
+        TreeNode root = new TreeNode(10);
+        TreeNode node1 = new TreeNode(5);
+        TreeNode node2 = new TreeNode(12);
+        TreeNode node3 = new TreeNode(4);
+        TreeNode node4 = new TreeNode(7);
+        root.left = node1;
+        root.right = node2;
+        node1.left = node3;
+        node1.right = node4;
+        TreeAlgo treeAlgo = new TreeAlgo();
+        ArrayList<ArrayList<Integer>> res = treeAlgo.FindPath(root, 22);
+    }
 }

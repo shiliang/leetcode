@@ -70,4 +70,55 @@ public class ListAlgo {
         }
         return stack.isEmpty();
     }
+
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> outList = new ArrayList<>();
+        int tR = 0, tC = 0;
+        int dR = matrix.length - 1;
+        int dC = matrix[0].length - 1;
+        while (tR <= dR && tC <= dC) {
+            printEdge(matrix, tR++, tC++, dR--, dC--, outList);
+        }
+        return outList;
+    }
+
+    public void printEdge(int[][] matrix, int tR, int tC, int dR, int dC,ArrayList<Integer> outList) {
+        if (tR == dR) {  //只有一行
+            for (int i = tC; i <= dC; i++) {
+                outList.add(matrix[tR][i]);
+            }
+        } else if (tC == dC) { //只有一列
+            for (int i = tR; i <= dR; i++) {
+                outList.add(matrix[i][tC]);
+            }
+        } else {
+            int curC = tC;
+            int curR = tR;
+            while (curC != dC) {
+                outList.add(matrix[tR][curC]);
+                curC++;
+            }
+
+            while (curR != dR) {
+                outList.add(matrix[curR][dC]);
+                curR++;
+            }
+
+            while (curC != tC) {
+                outList.add(matrix[dR][curC]);
+                curC--;
+            }
+
+            while (curR != tR) {
+                outList.add(matrix[curR][tC]);
+                curR--;
+            }
+        }
+    }
+
+    //单链表快排
+    public void linklistQuickSort(ListNode root) {
+        
+
+    }
 }

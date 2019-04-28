@@ -42,6 +42,31 @@ public class ArrayAlgo {
         input[j] = tmp;
     }
 
+    //快排非递归
+    public void quickSortNotRecursion(int[] input, int left, int right) {
+        if (input.length <= 0) return;
+        Stack<Integer> stack = new Stack<>();
+        int i = 0, j = 0;
+        stack.push(right);
+        stack.push(left);
+        while (!stack.isEmpty()) {
+            i = stack.pop();
+            j = stack.pop();
+            if (i < j) {
+                int k = partition(input, i, j);
+                if (k > i) {
+                    stack.push(k - 1);
+                    stack.push(i);
+                }
+
+                if (j > k) {
+                    stack.push(j);
+                    stack.push(k + 1);
+                }
+            }
+        }
+    }
+
     //数组中出现次数超过长度的一半
     public int MoreThanHalfNum_Solution(int [] array) {
         int len = array.length;
@@ -275,6 +300,103 @@ public class ArrayAlgo {
                          m2 >= n2 ? Integer.MAX_VALUE: nums2[m2]);
         return (c1 + c2)  * 0.5;
     }
+
+    //丑数，空间换时间
+    public int GetUglyNumber_Solution(int index) {
+        if (index <= 0) return 0;
+        int[] uglyNumbers = new int[index];
+        uglyNumbers[0] = 1;
+        int nextUglyIndex = 1;
+        int pMultiply2 = 0;
+        int pMultiply3 = 0;
+        int pMultiply5 = 0;
+
+        while (nextUglyIndex < index) {
+            int tmpMin = Math.min(uglyNumbers[pMultiply2], uglyNumbers[pMultiply3]);
+            int min = Math.min(tmpMin, uglyNumbers[pMultiply5]);
+
+            uglyNumbers[nextUglyIndex] = min;
+
+            while (uglyNumbers[pMultiply2] * 2 <= uglyNumbers[nextUglyIndex]) {
+                pMultiply2++;
+            }
+
+            while (uglyNumbers[pMultiply3] * 3 <= uglyNumbers[nextUglyIndex]) {
+                pMultiply3++;
+            }
+
+            while (uglyNumbers[pMultiply5] * 5 <= uglyNumbers[nextUglyIndex]) {
+                pMultiply5++;
+            }
+
+            nextUglyIndex++;
+
+
+        }
+
+
+        return uglyNumbers[nextUglyIndex - 1];
+    }
+
+    public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        if (array == null || array.length < 2) {
+            return res;
+        }
+
+        int small = 0;
+        int big = array.length - 1;
+        int currentSum = 0;
+        while (small < big) {
+            currentSum = array[small] + array[big];
+            if (currentSum == sum) {
+                res.add(array[small]);
+                res.add(array[big]);
+                break;
+            } else if (currentSum < sum) {
+                small++;
+            } else {
+                big--;
+            }
+        }
+        return res;
+    }
+
+    public void reverseString(char[] s) {
+        helper(0, s);
+    }
+
+    public void helper(int index, char[] s) {
+        if (s == null || index >= s.length) return;
+        helper(index + 1, s);
+        System.out.print(s[index]);
+    }
+
+
+    public int NumberOf1Between1AndN_Solution(int n) {
+        if (n < 1) return 0;
+        int count = 0;
+        int base = 1;  //权重
+        int round = n;  //次数
+        while (round > 0) {
+            int weight = round % 10;  //每一位的值
+            round /= 10;
+            count += round * base;
+
+            if (weight == 1) {
+                count += (n % base) + 1;  //1后面的个数
+            } else if (weight > 1) {
+                count += base;   //round * base + base
+            }
+            base *= 10;
+        }
+        return count;
+    }
+
+
+
+
+
 
 
 

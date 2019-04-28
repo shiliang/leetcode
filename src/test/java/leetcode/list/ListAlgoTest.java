@@ -20,4 +20,11 @@ public class ListAlgoTest {
         ListAlgo la = new ListAlgo();
         boolean a = la.IsPopOrder(pushA, popA);
     }
+
+    @Test
+    public void printMatrix() {
+        ListAlgo la = new ListAlgo();
+        int[][] m = {{1}};
+        la.printMatrix(m);
+    }
 }
