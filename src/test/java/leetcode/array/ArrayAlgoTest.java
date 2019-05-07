@@ -102,4 +102,20 @@ public class ArrayAlgoTest {
         ArrayAlgo algo = new ArrayAlgo();
         int res = algo.NumberOf1Between1AndN_Solution(23);
     }
+
+    @Test
+    public void permuteUnique() {
+        ArrayAlgo algo = new ArrayAlgo();
+        List<String> res = new ArrayList<>();
+        res = algo.permuteUnique("AABC");
+    }
+
+    @Test
+    public void longestOnes() {
+        int[] input = {1,1,1,0,0,0,1,1,1,1,0};
+        ArrayAlgo algo = new ArrayAlgo();
+        int res = algo.longestOnes(input, 2);
+    }
+
+
 }

@@ -205,6 +205,35 @@ public class ArrayAlgo {
         }
     }
 
+    //有重复的字符
+    public List<String> permuteUnique(String str) {
+        List<String> res = new ArrayList<>();
+        if (str == null || str.length() == 0) return res;
+        boolean[] used = new boolean[str.length()];  //初始化全部为false
+        StringBuilder sb = new StringBuilder();
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        dfs(chars, used, sb, res);
+        return res;
+
+    }
+
+    public void dfs(char[] chars, boolean[] used, StringBuilder sb, List<String> res) {
+        if (sb.length() == chars.length) {
+            res.add(sb.toString());
+            return;
+        }
+        for (int i = 0; i < chars.length; i++) {
+            if (used[i]) continue;
+            if (i > 0 && chars[i - 1] == chars[i] && !used[i - 1]) continue;
+            used[i] = true;
+            sb.append(chars[i]);
+            dfs(chars, used, sb, res);
+            used[i] = false;
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
     //no.78求数组的子集
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> lists = new ArrayList<>();
@@ -239,6 +268,11 @@ public class ArrayAlgo {
             }
         }
         return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    //no.416 把一个数组分成两个相同和的子数组
+    public boolean canPartition(int[] nums) {
+        return false;
     }
     
     //求立方根，牛顿迭代法
@@ -394,8 +428,115 @@ public class ArrayAlgo {
     }
 
 
+    //数组中的逆序对
+    public int InversePairs(int[] array) {
+        int len = array.length;
+        if (len == 0 ) return 0;
+
+        int[] copy = new int[len];
+
+        return InversePairsCore(array, copy, 0, len - 1);
+    }
+
+    private int InversePairsCore(int[] array, int[] copy, int start, int end) {
+        if (start == end) {
+            copy[start] = array[start];
+            return 0;
+        }
+        int len = (end - start) / 2; //对半分归并排序
+        int left = InversePairsCore(array, copy, start, start + len) % 1000000007;
+        int right = InversePairsCore(array, copy, start + len + 1, end) % 1000000007;
+
+        //i初始化为前半段最后一个数字的下标
+        int i = start + len;
+        //j初始化为后半段最后一个数字的下标
+        int j = end;
+        int indexCopy = end;
+        int count = 0;
+
+        //统计数组之间的逆序对个数,数组内是有序的
+        while (i >= start && j >= start + len + 1) {  //两个指针指向数组的末尾
+            if (array[i] > array[j]) {
+                copy[indexCopy--] = array[i--];  //存在逆序对两个指针往前移动
+                count += j - start - len; //因为j是有序的，前面的部分肯定比i小
+                if (count >= 1000000007) {
+                    count %= 1000000007;
+                }
+            } else {
+                copy[indexCopy--] = array[j--];
+            }
+        }
+
+        for (; i >= start ; --i) {
+            copy[indexCopy--] = array[i];
+        }
+
+        for (;  j >= start + len + 1 ; --j) {
+            copy[indexCopy--] = array[j];
+
+        }
+
+        //把排序后的数组复制到原数组中
+        for (int k = start; k <=end ; k++) {
+            array[k] = copy[k];
+        }
+        return (left + right + count) % 1000000007;
+
+    }
+
+    //数组中只出现一次的数字
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        int length = array.length;
+        if (array == null || length < 2) {
+            return;
+        }
+        int resultExclusiveOR = 0; //整个数组异或的结果
+        for (int i = 0; i < length; i++) {
+            resultExclusiveOR ^= array[i];
+        }
+        //两个不同的数不同位置异或的位置
+        int indexOf1 = FindFirstBitIs(resultExclusiveOR);
+
+        for (int i = 0; i < length; i++) {
+            if (IsBit1(array[i], indexOf1)) {
+                num1[0] ^= array[i];
+            } else {
+                num2[0] ^= array[i];
+            }
+
+        }
 
 
+    }
+
+    //找出二进制右边第一个1的下标
+    public int FindFirstBitIs(int num) {
+        int indexBit = 0;
+        while (((num & 1) == 0) && (indexBit < 32)) {
+            num = num >> 1;
+            indexBit++;
+        }
+        return indexBit;
+    }
+
+    //判断num的二进制表示中是否有从右边数起最右边是1的位，把原数组分成两个数组
+    boolean IsBit1(int num, int indexBit) {
+        num = num >> indexBit;
+        return (num & 1) == 1;
+    }
+
+    public int longestOnes(int[] A, int K) {
+        int zeroCount = 0, start = 0, end = 0, res = 0;
+        for (end = 0; end < A.length; end++) {
+            if (A[end] == 0) zeroCount++;
+            while (zeroCount > K) {
+                if (A[start] == 0) zeroCount--;
+                start++;
+            }
+            res = Math.max(res, end - start + 1);
+        }
+        return res;
+    }
 
 
 

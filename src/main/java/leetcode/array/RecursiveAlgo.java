@@ -6,34 +6,6 @@ import java.util.TreeSet;
 
 //递归解决
 public class RecursiveAlgo {
-/*    //no79. Word Search，只能是邻接的字符
-    public boolean exist(char[][] board, String word) {
-        if (board.length == 0) {
-            return false;
-        }
-
-        int n = board.length;
-        int m = board[0].length;
-        boolean[][] visited = new boolean[n][m];
-        
-    }
-
-    private boolean dfs(char[][] board, boolean[][] visited, String word,
-                        int n, int m, int x, int y, int index) {
-        if (index == word.length()) {
-           return true;
-        }
-        if (x < 0 || x > n - 1 || y < 0 || y > m - 1 ||
-        visited[x][y] || board[x][y] != word.charAt(index)) {
-            visited[x][y] = true;
-            boolean exist = dfs()
-        }
-    }
-
-    //no215. Kth Largest Element in an Array,使用优先队列建立最大堆
-    public int findKthLargest(int[] nums, int k) {
-
-    }*/
 
     public boolean containsDuplicate(int[] nums) {
         HashSet<Integer> set = new HashSet<Integer>();
@@ -77,5 +49,61 @@ public class RecursiveAlgo {
         }
 
         return false;
+    }
+
+    public int GetNumberOfK(int [] array , int k) {
+        int count = 0;
+        int length = array.length;
+        if (array != null && length > 0) {
+            int first = GetFirstK(array, length, k, 0, length - 1);
+            int last = GetLastK(array, length, k, 0, length - 1);
+            if (first > -1 && last > -1) {
+                count = last - first + 1;
+            }
+        }
+        return count;
+    }
+
+    //统计一个数字在排序数组中出现的次数。
+    public int GetFirstK(int[] array, int length, int k, int start, int end) {
+        if (start > end) return -1;
+        int middleIndex = (start + end) / 2;
+        int middleData = array[middleIndex];
+        if (middleData == k) {
+            //前半段不含k,中间值是k说明中间的那个值是第一个等于k的值
+            if ((middleIndex > 0 && array[middleIndex - 1] != k)
+                    || middleIndex == 0) {
+                return middleIndex;
+            } else {
+                end = middleIndex - 1;
+            }
+        } else if (middleData > k) {
+            end = middleIndex - 1;
+        } else {
+            start = middleIndex + 1;
+        }
+
+        return GetFirstK(array, length, k, start, end);
+    }
+
+    public int GetLastK(int[] array, int length, int k, int start, int end) {
+        if (start > end) return -1;
+        int middleIndex = (start + end) / 2;
+        int middleData = array[middleIndex];
+        if (middleData == k) {
+            //最后一个的情况
+            if ((middleIndex < length - 1 && array[middleIndex + 1] != k)
+                    || middleIndex == length - 1) {
+                return middleIndex;
+            } else {
+                start = middleIndex + 1;
+            }
+        } else if (middleData > k) {
+            end = middleIndex - 1;
+        } else {
+            start = middleIndex + 1;
+        }
+
+        return GetLastK(array, length, k, start, end);
     }
 }

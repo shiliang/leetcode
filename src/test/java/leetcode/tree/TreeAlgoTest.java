@@ -63,7 +63,7 @@ public class TreeAlgoTest {
         node7.right = null;
         TreeAlgo treeAlgo = new TreeAlgo();
         ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        res = treeAlgo.PrintByZigZag(root);
+        res = treeAlgo.PrintZigZag(root);
 
     }
 

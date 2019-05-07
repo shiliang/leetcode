@@ -36,51 +36,89 @@ public class TreeAlgo {
         return root;
     }
 
-    public ArrayList<ArrayList<Integer>> PrintByZigZag(TreeNode pRoot) {
-        if (pRoot == null) return null;
-        Deque<TreeNode> dq = new LinkedList<>();
-        ArrayList<Integer> tempList = new ArrayList<>();
+    //按层次打印二叉树，并打印出相应的行号
+    public ArrayList<ArrayList<Integer>> printByLevel(TreeNode head) {
         ArrayList<ArrayList<Integer> > res = new ArrayList<>();
-        boolean lr = true; //打印顺序
-        TreeNode head = pRoot;
+        ArrayList<Integer> tempList = new ArrayList<>();
+        if (head == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        int level = 1;
         TreeNode last = head;
-        TreeNode nLast = null;
-        dq.offerFirst(head);
-        while (!dq.isEmpty()) {
-            if (lr) {  //从左到右打印，尾部进顶部弹出左子树先入右子树后入
-                head = dq.pollFirst();
-                tempList.add(head.val);
-                if (head.left != null) {
-                    nLast = nLast == null ? head.left : nLast;
-                    dq.offerLast(head.left);
-                }
-                if (head.right != null) {
-                    nLast = nLast == null ? head.right : nLast;
-                    dq.offerLast(head.right);
-                }
-
-            } else {  //从右到左打印，顶部进入右子树先进，底部弹出
-                head = dq.pollLast();
-                tempList.add(head.val);
-                if (head.right != null) {
-                    nLast = nLast == null ? head.right : nLast;
-                    dq.offerFirst(head.right);
-                }
-                if (head.left != null) {
-                    nLast = nLast == null ? head.left : nLast;
-                    dq.offerFirst(head.left);
-                }
-
+        TreeNode nlast = null;
+        queue.offer(head);
+        System.out.print("Level" + (level++) + ":");
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            tempList.add(node.val);
+            System.out.print(node.val + " ");
+            if (node.left != null) {
+                queue.offer(node.left);
+                nlast = node.left;
             }
-            if (head == last && !dq.isEmpty()) {
+
+            if (node.right != null) {
+                queue.offer(node.right);
+                nlast = node.right;
+            }
+
+            if (node == last && !queue.isEmpty()) {
+                System.out.print("\nLevel" + (level++) + ":");
+                res.add(new ArrayList<Integer>(tempList));
+                tempList.clear();
+                last = nlast;
+            }
+        }
+        return res;
+
+    }
+
+
+    //按Z字型打印二叉树
+    public ArrayList<ArrayList<Integer> > PrintZigZag(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer> > res = new ArrayList<ArrayList<Integer> >();
+        ArrayList<Integer> tempList = new ArrayList<Integer>();
+        if (pRoot == null) return res;
+        Deque<TreeNode> dq = new LinkedList<TreeNode>();
+        TreeNode last = pRoot;
+        TreeNode nlast = null;
+        TreeNode node = null;
+        boolean lr = true;
+        dq.offerFirst(pRoot);
+        while (!dq.isEmpty()) {
+            if (lr) {  //从左到右打印
+                node = dq.pollFirst();
+                tempList.add(node.val);
+                if (node.left != null) {
+                    dq.offerLast(node.left);
+                    nlast = nlast == null ? node.left : nlast;  //新一层遍历的时候确定下一层最后一个节点
+                }
+                if (node.right != null) {
+                    dq.offerLast(node.right);
+                    nlast = nlast == null ? node.right : nlast;
+                }
+            } else {
+                node = dq.pollLast();
+                tempList.add(node.val);
+                if (node.right != null) {
+                    dq.offerFirst(node.right);
+                    nlast = nlast == null ? node.right : nlast;
+                }
+
+                if (node.left != null) {
+                    dq.offerFirst(node.left);
+                    nlast = nlast == null ? node.left : nlast;
+                }
+            }
+
+            if (node == last && !dq.isEmpty()) {
                 lr = !lr;  //改变方向
-                last = nLast;
-                nLast = null;
-                res.add(tempList);
+                last = nlast;
+                nlast = null;
+                res.add(new ArrayList<Integer>(tempList));
                 tempList.clear();
             }
-
         }
+        res.add(new ArrayList<Integer>(tempList));
         return res;
     }
 
@@ -217,6 +255,7 @@ public class TreeAlgo {
         currentSum -= root.val;
         path.remove(path.size() - 1);
     }
+
 
 
 
