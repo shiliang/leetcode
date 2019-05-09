@@ -167,4 +167,46 @@ public class StringAlgo {
         return new String(chars);
 
     }
+
+    //正则表达式匹配,.表示任意一个字符,*表示前面的字符可以出现任意多次从0到n次
+    public boolean match(char[] str, char[] pattern)
+    {
+        if (str == null || pattern == null) return false;
+        return matchHelper(str, 0, pattern, 0);
+    }
+
+    public boolean matchHelper(char[] str, int s, char[] pattern, int p) {
+        if (str.length <= s && pattern.length <= p) {
+            return true;
+        }
+        //模式完了，字符串还有
+        if (str.length > s && pattern.length <= p) {
+            return false;
+        }
+        //pattern的下一个字符是*号
+        if (p + 1 < pattern.length && pattern[p + 1] == '*') {
+            //字符串匹配完
+            if (s >= str.length) return matchHelper(str, s, pattern, p + 2); //*当做0处理
+            else {
+                if (pattern[p] == str[s] || pattern[p] == '.') {
+                    //当前位置匹配完成，移动到下个模式串
+                    return matchHelper(str, s + 1, pattern, p + 2) //匹配一个字符
+                            || matchHelper(str, s + 1, pattern, p)  //匹配多个字符
+                            || matchHelper(str, s, pattern, p + 2); //*当做0处理
+                } else {
+                    return matchHelper(str, s, pattern, p + 2);
+                }
+            }
+
+        }
+
+        //pattern的下一个字符不是*
+        if (s >= str.length) return false;
+        else {
+            if (str[s] == pattern[p] || pattern[p] == '.') {
+                return matchHelper(str, s + 1, pattern, p + 1);
+            }
+        }
+        return false;
+    }
 }

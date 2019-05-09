@@ -23,4 +23,12 @@ public class StringAlgoTest {
         StringAlgo stringAlgo = new StringAlgo();
         String a = stringAlgo.decodeString("3[a]2[bc]");
     }
+
+    @Test
+    public void match() {
+        StringAlgo stringAlgo = new StringAlgo();
+        char[] text = {};
+        char[] pattern = {'.'};
+        boolean res = stringAlgo.match(text, pattern);
+    }
 }
