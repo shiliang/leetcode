@@ -209,4 +209,75 @@ public class StringAlgo {
         }
         return false;
     }
+
+    public boolean isNumeric(char[] str) {
+        if (str == null || str.length == 0) return false;
+        int index = 0;
+        //第一位是正数或者负数
+        if (str[index] == '+' || str[index] == '-') {
+            index++;
+        }
+
+        if (index == str.length) return false;
+        boolean numeric = true;
+        index = scanDigits(str, index);
+        if (index < str.length) {
+            if (str[index] == '.') {
+                //判断后面是否为小数位
+                index++;
+                index = scanDigits(str, index);
+                if (index < str.length) {
+                    if (str[index] == 'e' || str[index] == 'E') {
+                        index++;
+                        if (index == str.length) {
+                            numeric = false;
+                        } else {
+                            numeric = isExponential(str, index);
+                        }
+                    } else {
+                        numeric = false;
+                    }
+                } else {
+                    numeric = true;
+                }
+            } else if (str[index] == 'e' || str[index] == 'E') {
+                index++;
+                if (index == str.length) {
+                    numeric = false;
+                } else {
+                    numeric = isExponential(str, index);
+                }
+            } else {
+                numeric = false;
+            }
+        }
+        return numeric;
+
+    }
+
+    //判断是否是指数，指数部分不允许有小数
+    private boolean isExponential(char[] str, int index) {
+        //index指向e之后的第一个字符
+        if (str[index] == '+' || str[index] == '-') {
+            index++;
+        }
+
+        //到达第一个非数字字符或者到达数组尾部
+        while (index < str.length && (str[index] >= '0' && str[index] <= '9')) {
+            index++;
+        }
+
+        return index == str.length;
+
+    }
+
+    //扫描数字，返回第一位不为数字的下标
+    private int scanDigits(char[] str, int index) {
+        while (index < str.length && (str[index] >= '0' && str[index] <= '9')) {
+            index++;
+        }
+        return index;
+    }
+
+
 }
