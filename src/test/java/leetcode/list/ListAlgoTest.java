@@ -27,4 +27,10 @@ public class ListAlgoTest {
         int[][] m = {{1}};
         la.printMatrix(m);
     }
+
+    @Test
+    public void GetUglyNumber_Solution() {
+        ListAlgo la = new ListAlgo();
+        int res = la.GetUglyNumber_Solution(7);
+    }
 }

@@ -31,4 +31,12 @@ public class StringAlgoTest {
         char[] pattern = {'.'};
         boolean res = stringAlgo.match(text, pattern);
     }
+
+    @Test
+    public void comparison() {
+        StringAlgo stringAlgo = new StringAlgo();
+        String s = "aa";
+        String p = "*";
+        boolean res = stringAlgo.comparison(s, p);
+    }
 }

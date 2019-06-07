@@ -279,5 +279,38 @@ public class StringAlgo {
         return index;
     }
 
+    //'?'表示匹配任意一个字符，*表示匹配任意多字符包括空字符
+    public boolean comparison(String s, String p) {
+        int ps = 0, pp = 0; //字符串两个下标
+        int starIdx = -1;  //记录最后出现的*下标
+        int match = 0;  //记录starIdx出现时候字符串对应的下标
+        while (ps < s.length()) {
+            if (pp < p.length() &&
+                    (p.charAt(pp) == '?' || s.charAt(ps) == p.charAt(pp))) {
+                ps++;
+                pp++;
+            } else if (pp < p.length() && p.charAt(pp) == '*') {
+                starIdx = pp;  //当前字符是*,默认匹配0个字符
+                match = ps;
+                pp++;
+            } else if (starIdx != -1) {  //如果不匹配则找到前面的*出现地方，让*匹配多个字符
+                pp = starIdx + 1;  //目的是让前面的*匹配多个字符
+                match++;
+                ps = match;
+            } else {
+                return false;
+            }
+        }
+
+        //字符串匹配完，模式串没有匹配完
+        while (pp < p.length() && p.charAt(pp) == '*') {
+            pp++;
+        }
+
+        return pp == p.length();
+    }
+
+
+
 
 }
