@@ -1,7 +1,5 @@
-package leetcode.concurrency;
+package concurrency;
 
-import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
 public class Producer implements Runnable {

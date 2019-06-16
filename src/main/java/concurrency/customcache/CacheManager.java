@@ -1,4 +1,4 @@
-package leetcode.concurrency.customcache;
+package concurrency.customcache;
 /*
     用HashMap实现一个缓存工具类
 

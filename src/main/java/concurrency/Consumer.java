@@ -1,6 +1,5 @@
-package leetcode.concurrency;
+package concurrency;
 
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 public class Consumer implements Runnable {
