@@ -16,9 +16,5 @@ public class SortAlgoTest {
         sa.sortColors(input);
     }
 
-    @Test
-    public void threeSum() {
-        int[] input = {0,0,0};
-        List<List<Integer>> res = sa.threeSum(input);
-    }
+
 }
