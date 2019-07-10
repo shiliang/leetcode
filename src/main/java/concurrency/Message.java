@@ -1,4 +1,4 @@
-package leetcode.concurrency;
+package concurrency;
 
 public class Message {
     private String msg;
