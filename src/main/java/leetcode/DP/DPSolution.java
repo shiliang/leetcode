@@ -95,4 +95,24 @@ public class DPSolution {
 
     //最长公共子序列
 
+
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) return "";
+        int len = s.length();
+        int maxLen = 0, left = 0, right = 0;
+        boolean[][] dp = new boolean[len][len];
+        for (int i = len - 1; i >= 0; i--) {
+            dp[i][i] = true;
+            for (int j = i + 1; j < len; j++) {
+                dp[i][j] = (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1]));
+                if (dp[i][j] && maxLen < j - i + 1) {
+                    maxLen = j - i + 1;
+                    left = i;
+                    right = j + 1;
+                }
+            }
+        }
+        return s.substring(left, right);
+    }
+
 }

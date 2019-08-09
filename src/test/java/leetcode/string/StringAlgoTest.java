@@ -39,4 +39,10 @@ public class StringAlgoTest {
         String p = "*";
         boolean res = stringAlgo.comparison(s, p);
     }
+
+    @Test
+    public void lengthOfLongestSubstring() {
+        StringAlgo stringAlgo = new StringAlgo();
+        int res = stringAlgo.lengthOfLongestSubstring("abba");
+    }
 }

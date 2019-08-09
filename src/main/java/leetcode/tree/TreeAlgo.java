@@ -219,41 +219,26 @@ public class TreeAlgo {
     }
 
 
-    //打印和为某一值的路径
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        if (root == null) return res;
-
-        int currentSum = 0;
-        ArrayList<Integer> path = new ArrayList<>();
-        printPath(res, path, root, target, currentSum);
-        return res;
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> path = new ArrayList<>();
+        helper(root, sum, path, new ArrayList<>());
+        return path;
 
     }
 
-    private void printPath(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> path,
-                           TreeNode root, int target, int currentSum) {
-
-        currentSum += root.val;
-        path.add(root.val);
-        boolean isLeaf = (root.left == null && root.right == null);
-        if (currentSum == target && isLeaf) {
-            ArrayList<Integer> copyPath = new ArrayList<>();
-            copyPath.addAll(path);
-            res.add(copyPath);
+    public void helper(TreeNode root, int sum, List<List<Integer>> path, ArrayList<Integer> tmpList) {
+        if (root == null) return;
+        tmpList.add(root.val);
+        if (root.left == null && root.right == null && sum == root.val) {
+            path.add(new ArrayList<>(tmpList));
+            tmpList.remove(tmpList.size() - 1);
+            return;
+        } else {
+            helper(root.left, sum - root.val, path, tmpList);
+            helper(root.right, sum - root.val, path, tmpList);
         }
+        tmpList.remove(tmpList.size() - 1);
 
-        if (root.left != null) {
-            printPath(res, path, root.left, target, currentSum);
-        }
-
-        if (root.right != null) {
-            printPath(res, path, root.right, target, currentSum);
-        }
-
-        //返回父节点删除当前的节点
-        currentSum -= root.val;
-        path.remove(path.size() - 1);
     }
 
 

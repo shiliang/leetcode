@@ -1,5 +1,7 @@
 package leetcode.string;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class StringAlgo {
@@ -308,6 +310,24 @@ public class StringAlgo {
         }
 
         return pp == p.length();
+    }
+
+    //最长没有重复字符的子序列
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> map= new HashMap<>();
+        int start=0, len=0;
+        // tmsmdut  i = s.length() - 1
+        for(int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                if (map.get(c) >= start) //防止前面有相同的字符来更新比如a
+                    start = map.get(c) + 1;
+            }
+            len = Math.max(len, i-start+1);
+            map.put(c, i);
+        }
+
+        return len;
     }
 
 

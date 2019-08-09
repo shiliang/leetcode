@@ -57,16 +57,14 @@ public class ListAlgo {
 
     //栈压入弹出序列
     public boolean IsPopOrder(int [] pushA,int [] popA) {
-        if (pushA.length == 0) return false;
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = 0, j = 0; i < pushA.length;) {
-            stack.push(pushA[i++]);
+        if (pushA == null || popA == null) return false;
+        Stack<Integer> stack = new Stack<Integer>();
+        for (int i = 0, j = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
             while (j < popA.length && stack.peek() == popA[j]) {
                 stack.pop();
                 j++;
             }
-
         }
         return stack.isEmpty();
     }
@@ -175,4 +173,6 @@ public class ListAlgo {
         int min2 = Math.min(min1, num3);
         return min2;
     }
+
+
 }

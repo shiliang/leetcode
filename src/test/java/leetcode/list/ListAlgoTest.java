@@ -16,7 +16,7 @@ public class ListAlgoTest {
     @Test
     public void IsPopOrder() {
         int[] pushA = {1,2,3,4,5};
-        int[] popA = {4,3,5,1,2};
+        int[] popA = {4,5,3,2,1};
         ListAlgo la = new ListAlgo();
         boolean a = la.IsPopOrder(pushA, popA);
     }

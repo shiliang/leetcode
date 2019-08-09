@@ -3,6 +3,7 @@ package leetcode.tree;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -82,18 +83,31 @@ public class TreeAlgoTest {
         boolean res = treeAlgo.VerifySquenceOfBST(input);
     }
 
+
     @Test
-    public void FindPath() {
-        TreeNode root = new TreeNode(10);
-        TreeNode node1 = new TreeNode(5);
-        TreeNode node2 = new TreeNode(12);
-        TreeNode node3 = new TreeNode(4);
-        TreeNode node4 = new TreeNode(7);
+    public void pathSum() {
+        TreeAlgo treeAlgo = new TreeAlgo();
+        TreeNode root = new TreeNode(5);
+        TreeNode node1 = new TreeNode(4);
+        TreeNode node2 = new TreeNode(8);
+        TreeNode node3 = new TreeNode(11);
+        TreeNode node4 = new TreeNode(13);
+        TreeNode node5 = new TreeNode(4);
+        TreeNode node6 = new TreeNode(7);
+        TreeNode node7 = new TreeNode(2);
+        TreeNode node8 = new TreeNode(5);
+        TreeNode node9 = new TreeNode(1);
+
         root.left = node1;
         root.right = node2;
         node1.left = node3;
-        node1.right = node4;
-        TreeAlgo treeAlgo = new TreeAlgo();
-        ArrayList<ArrayList<Integer>> res = treeAlgo.FindPath(root, 22);
+        node2.left = node4;
+        node2.right = node5;
+        node3.left = node6;
+        node3.right = node7;
+        node5.left = node8;
+        node5.right = node9;
+        List<List<Integer>> path = new ArrayList<>();
+        path = treeAlgo.pathSum(root,22);
     }
 }

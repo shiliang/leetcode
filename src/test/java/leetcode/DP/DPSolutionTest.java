@@ -12,4 +12,11 @@ public class DPSolutionTest {
         String s = "bbbab";
         dpSolution.longestPalindromeSubseq(s);
     }
+
+    @Test
+    public void longestPalindrome() {
+        DPSolution dpSolution = new DPSolution();
+        String s = "cbbd";
+        dpSolution.longestPalindrome(s);
+    }
 }

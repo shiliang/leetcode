@@ -1,8 +1,7 @@
 package leetcode.array;
 
 
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
 //递归解决
 public class RecursiveAlgo {
@@ -105,5 +104,29 @@ public class RecursiveAlgo {
         }
 
         return GetLastK(array, length, k, start, end);
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtrack(candidates, target, list, tmp, 0, 0);
+        return list;
+    }
+
+    public void backtrack(int[] candidates, int target, List<List<Integer>> res, List<Integer> tmp, int index, int sum) {
+        if (sum == target) {
+            res.add(new ArrayList<>(tmp));
+        } else if (sum > target) {
+            return;
+        } else {
+            for (int i = index; i < candidates.length; i++) {
+                tmp.add(candidates[i]);
+                sum += candidates[i];
+                backtrack(candidates, target, res, tmp, i, sum);
+                sum -= candidates[i];
+                tmp.remove(tmp.size() - 1);
+            }
+        }
     }
 }
