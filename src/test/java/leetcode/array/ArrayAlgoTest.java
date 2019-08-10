@@ -37,17 +37,6 @@ public class ArrayAlgoTest {
 
     int[] input = {1,2,3};
 
-    @Test
-    public void partition() {
-        ArrayAlgo algo = new ArrayAlgo();
-        algo.quickSort(input,0,input.length - 1);
-        //algo.partition(input,0,input.length -1);
-
-        for (int e: input
-             ) {
-            System.out.print(e);
-        }
-    }
 
     @Test
     public void coinChange() {
