@@ -1,5 +1,8 @@
 package leetcode.DP;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class DPSolution {
     private double[] sums;
     private double[][] dp;
@@ -113,6 +116,39 @@ public class DPSolution {
             }
         }
         return s.substring(left, right);
+    }
+
+    //no 354
+    public int maxEnvelopes(int[][] envelopes) {
+        int n = envelopes.length;
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
+            }
+        });
+        int[] height = new int[n];
+        for (int i = 0; i < n; i++) {
+            height[i] = envelopes[i][1];
+        }
+        return lengthLIS(height);
+    }
+
+    public int lengthLIS(int[] height) {
+        int lenlis = 1;
+        if (height == null || height.length == 0) return 0;
+        int len = height.length;
+        int[] dp = new int[len];
+        Arrays.fill(dp, 1);
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < i; j++) {
+                if (height[j] < height[i]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            lenlis = Math.max(lenlis, dp[i]);
+        }
+        return lenlis;
+
     }
 
 }

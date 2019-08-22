@@ -45,4 +45,10 @@ public class StringAlgoTest {
         StringAlgo stringAlgo = new StringAlgo();
         int res = stringAlgo.lengthOfLongestSubstring("abba");
     }
+
+    @Test
+    public void multiply() {
+        StringAlgo stringAlgo = new StringAlgo();
+        String a = stringAlgo.multiply("123","456");
+    }
 }

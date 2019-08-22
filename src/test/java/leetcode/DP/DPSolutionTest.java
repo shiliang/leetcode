@@ -19,4 +19,11 @@ public class DPSolutionTest {
         String s = "cbbd";
         dpSolution.longestPalindrome(s);
     }
+
+    @Test
+    public void maxEnvelopes() {
+        DPSolution dpSolution = new DPSolution();
+        int[][] input = {{4,5},{4,6},{6,7},{2,3},{1,1}};
+        dpSolution.maxEnvelopes(input);
+    }
 }
