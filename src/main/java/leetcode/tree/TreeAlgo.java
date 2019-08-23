@@ -241,6 +241,20 @@ public class TreeAlgo {
 
     }
 
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) {
+            return root;  //左右子树分别包含pq说明是最近的公共祖先
+        } else if (left != null) {
+            return left;
+        } else if (right != null) {
+            return right;
+        }
+        return null;
+    }
+
 
 
 

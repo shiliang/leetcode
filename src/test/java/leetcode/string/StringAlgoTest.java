@@ -51,4 +51,11 @@ public class StringAlgoTest {
         StringAlgo stringAlgo = new StringAlgo();
         String a = stringAlgo.multiply("123","456");
     }
+
+    @Test
+    public void longestCommonPrefix() {
+        StringAlgo stringAlgo = new StringAlgo();
+        String[] strings = {"flower","flow","flight"};
+        String a = stringAlgo.longestCommonPrefix(strings);
+    }
 }

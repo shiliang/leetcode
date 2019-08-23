@@ -110,4 +110,17 @@ public class TreeAlgoTest {
         List<List<Integer>> path = new ArrayList<>();
         path = treeAlgo.pathSum(root,22);
     }
+
+    @Test
+    public void lowestCommonAncestor() {
+        TreeAlgo treeAlgo = new TreeAlgo();
+        TreeNode root = new TreeNode(3);
+        TreeNode node1 = new TreeNode(5);
+        TreeNode node2 = new TreeNode(6);
+        TreeNode node3 = new TreeNode(1);
+        root.left = node1;
+        root.right = node3;
+        node1.left = node2;
+        TreeNode a = treeAlgo.lowestCommonAncestor(root, node1, node2);
+    }
 }
