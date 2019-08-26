@@ -191,5 +191,26 @@ public class ListAlgo {
         return maxArea;
     }
 
+    public ListNode reverseKGroup(ListNode head, int k) {
+        Stack<ListNode> stack = new Stack<>();
+        ListNode tmp = head;
+        for (int i = 0; i < k; i++) {
+            if (head != null) {
+                stack.push(head);
+            } else {
+                return tmp;  //不满k个节点
+            }
+            head = head.next;
+        }
+        ListNode first = stack.pop();
+        ListNode res = first;
+        for (int i = 0; i < k - 1; i++) {
+            first.next = stack.pop();
+            first = first.next;
+        }
+        first.next = reverseKGroup(head, k);
+        return res;
+    }
+
 
 }
