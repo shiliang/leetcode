@@ -366,4 +366,24 @@ public class StringAlgo {
         return prefix;
     }
 
+    //763,划分字母区间
+    public List<Integer> partitionLabels(String S) {
+        int[] last_index = new int[128];
+        for (int i = 0; i < S.length(); i++) {
+            last_index[S.charAt(i)] = i;   //记录每个字符出现的最后
+        }
+        List<Integer> res = new ArrayList<>();
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < S.length(); i++) {
+            end = Math.max(end, last_index[S.charAt(i)]);
+            if (end == i) {
+                res.add(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return res;
+
+    }
+
 }

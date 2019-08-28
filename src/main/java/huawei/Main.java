@@ -3,35 +3,34 @@ package huawei;
 import java.util.*;
 
 public class Main {
-    public static int pos = -1;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        List<Integer> list = new ArrayList<>();
-        while (sc.hasNext()) {
-            list.add(sc.nextInt());
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] nums = new int[m][2];
+        int count = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            if (map.containsKey(a)) {
+                int val = map.get(a);
+                map.put(a, val + 1);
+            } else {
+                map.put(a, 1);
+            }
+
         }
-        int[] arr = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            arr[i] = list.get(i);
+        for (int key : map.keySet()) {
+            int val = map.get(key);
+            if (val % 2 == 0) {
+                count++;
+            }
         }
-        find(arr, 0, list.size() - 1);
-        System.out.println(pos);
+        System.out.println(count);
 
     }
-
-    public static void find(int[] arr, int left, int right) {
-        if (left == right) return;
-        int mid = (left + right) / 2;
-        if (arr[mid] == 19) {
-            pos = mid;
-            return;
-        } else if (arr[mid] < 19) {
-            find(arr, left, mid - 1);
-        } else {
-            find(arr, mid + 1, right);
-        }
-    }
-
 
 
 
