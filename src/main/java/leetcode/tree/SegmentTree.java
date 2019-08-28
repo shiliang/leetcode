@@ -1,5 +1,7 @@
 package leetcode.tree;
 
+import java.util.TreeMap;
+
 public class SegmentTree {
     //leetcode 307
     class SegmentTreeNode {
@@ -29,4 +31,5 @@ public class SegmentTree {
     public void updateTree(SegmentTreeNode node, int index, int val) {
 
     }
+
 }
