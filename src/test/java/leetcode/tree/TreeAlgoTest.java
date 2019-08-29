@@ -123,4 +123,14 @@ public class TreeAlgoTest {
         node1.left = node2;
         TreeNode a = treeAlgo.lowestCommonAncestor(root, node1, node2);
     }
+
+    @Test
+    public void inorderSuccessor() {
+        TreeAlgo treeAlgo = new TreeAlgo();
+        TreeNode root = new TreeNode(3);
+        TreeNode node1 = new TreeNode(5);
+        TreeNode node2 = new TreeNode(6);
+        TreeNode node3 = new TreeNode(1);
+    }
+
 }
