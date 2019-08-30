@@ -58,4 +58,11 @@ public class StringAlgoTest {
         String[] strings = {"flower","flow","flight"};
         String a = stringAlgo.longestCommonPrefix(strings);
     }
+
+    @Test
+    public void parseChineseNumber() {
+        StringAlgo stringAlgo = new StringAlgo();
+        long a = stringAlgo.parseChineseNumber("三千二百零一万九千七百六十五亿四千三百二十一万九千八百七十六");
+        System.out.println(a);
+    }
 }

@@ -97,11 +97,17 @@ public class QuickSort {
     //
 
 
-    //单链表快排
+    //no.148 两种方法一种快排，一种归并排序
+    //单链表快排,把链表结尾的节点当支点，从头到尾遍历，比支点大的尾插到最后，小的保持不动
+    //新的首尾节点也需要生成newHead, newTail   ()
     public void linklistQuickSort(ListNode root) {
 
 
     }
+
+   /* public ListNode listPartition(
+
+    )*/
 
     public ListNode getTail(ListNode head) {
         if (head == null) return head;

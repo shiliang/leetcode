@@ -386,4 +386,35 @@ public class StringAlgo {
 
     }
 
+    //中文字符串转long数字
+    public  long parseChineseNumber(String s){
+        long  num = 0;
+        StringBuilder  sb = new StringBuilder();
+        for(int i = 0 ; i< s.length();i++){
+            switch(s.charAt(i)){
+                case '零': sb.append('0');break;
+                case '一': sb.append('1');break;
+                case '二': sb.append('2');break;
+                case '三': sb.append('3');break;
+                case '四': sb.append('4');break;
+                case '五': sb.append('5');break;
+                case '六': sb.append('6');break;
+                case '七': sb.append('7');break;
+                case '八': sb.append('8');break;
+                case '九': sb.append('9');break;
+
+            }
+        }
+        //System.out.println(sb+"****");
+        long  wei = 1;
+        for(int i = sb.length() -1;i>=0 ;i--){
+            num += (sb.charAt(i)-'0')*wei;
+            System.out.println("num = " + num);
+            wei = wei * 10;
+        }
+        return  num ;
+    }
+
+    //输入一组数据，求出现次数topk
+
 }

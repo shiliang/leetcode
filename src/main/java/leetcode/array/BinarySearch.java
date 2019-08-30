@@ -25,19 +25,5 @@ public class BinarySearch {
         return -1;
     }
 
-    public double sqrt(int x) {
-        double left = 0;
-        double right = x;
-        double precise = 1e-6;
-        double mid = 0;
-        while (Math.abs(right - left) >= precise) {
-            mid = left + (right - left) / 2;
-            if (mid * mid > x) {
-                right = mid;
-            } else if (mid * mid < x) {
-                left = mid;
-            }
-        }
-        return mid;
-    }
+
 }
