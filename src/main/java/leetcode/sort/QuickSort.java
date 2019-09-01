@@ -101,13 +101,63 @@ public class QuickSort {
     //单链表快排,把链表结尾的节点当支点，从头到尾遍历，比支点大的尾插到最后，小的保持不动
     //新的首尾节点也需要生成newHead, newTail   ()
     public void linklistQuickSort(ListNode root) {
-
+        linklistQuickSortRecur(root, getTail(root));
 
     }
 
-   /* public ListNode listPartition(
+    public ListNode linklistQuickSortRecur(ListNode head, ListNode end) {
+        if (head == null || head == end) return head;
+        ListNode newHead = null, newEnd = null;
+        ListNode pivot = listPartition(head, end, newHead, newEnd);
+        //如果pivot是最小的节点，不用递归
+        //左边部分
+        if (newHead != pivot) {
+            ListNode tmp = newHead;
+            while (tmp.next != pivot) {
+                tmp = tmp.next;
+            }
+            tmp.next = null;
+            newHead = linklistQuickSortRecur(newHead, tmp);
+            tmp = getTail(newHead);
+            tmp.next = pivot;
+        }
+        pivot.next = linklistQuickSortRecur(pivot.next, newEnd);
+        return newHead;
+    }
 
-    )*/
+    public ListNode listPartition( ListNode head, ListNode end,
+                                   ListNode newHead, ListNode newEnd) {
+        ListNode pivot = end;
+        ListNode cur = head, prev = null, tail = pivot;
+        while (cur != pivot) {
+            if (cur.val < pivot.val) {
+                if (newHead == null) {
+                    newHead = cur;
+                }
+                prev = cur;
+                cur = cur.next;
+            } else {
+                if (prev != null) {
+                    prev.next = cur.next;
+                }
+                ListNode tmp = cur.next;
+                cur.next = null;
+                tail.next = cur;
+                tail = cur;
+                cur = tmp;
+
+            }
+
+
+        }
+
+        //如果pivot是最小的节点
+        if (newHead == null) {
+            newHead = pivot;
+        }
+        newEnd = tail;
+        return pivot;
+    }
 
     public ListNode getTail(ListNode head) {
         if (head == null) return head;

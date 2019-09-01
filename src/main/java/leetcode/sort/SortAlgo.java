@@ -74,11 +74,6 @@ public class SortAlgo {
     //
 
 
-    //单链表快排
-    public void linklistQuickSort(ListNode root) {
-
-
-    }
 
     //148. Sort List
     public ListNode sortList(ListNode head) {

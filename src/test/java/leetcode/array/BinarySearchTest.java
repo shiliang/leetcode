@@ -13,9 +13,5 @@ public class BinarySearchTest {
         int res = binarySearch.search(input, 3);
     }
 
-    @Test
-    public void sqrt() {
-        double res = binarySearch.sqrt(3);
-        System.out.println(res);
-    }
+
 }

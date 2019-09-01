@@ -1,45 +1,41 @@
 package PDD;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        List<Integer> input = new ArrayList<>();
-        int num = 0;
-        //中断输入ctrl D
-        while (sc.hasNextLine()) {
-            String str = sc.nextLine();
-            String[] strlist = str.split(" ");
-            for (int i = 0; i < strlist.length; i++) {
-                input.add(Integer.parseInt(strlist[i]));
-            }
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        ArrayList<Integer> res = new ArrayList<>();
+        int[] arr = new int[n];
+        //若干个连续子数组的最大和
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
         }
-        int max1 = 0, max2 = 0, max3 = 0, min1 = 0, min2 = 0;
-        for (int i = 0; i < input.size(); i++) {
-            num = input.get(i);
-            if (num > max1) {
-                max3 = max2;
-                max2 = max1;
-                max1 = num;
-            } else if (num > max2) {
-                max3 = max2;
-                max2 = num;
-            } else if (num > max3) {
-                max3 = num;
-            } else if (num < min1) {
-                min2 = min1;
-                min1 = num;
-            } else if (num < min2) {
-                min2 = num;
-            } else {
-                continue;
+        int sum = 0;
+        int maxSum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+            if (sum > maxSum) {
+                maxSum = sum;
+            } else if (sum < 0) {
+                res.add(maxSum);
+                sum = 0;
+                maxSum = 0;
             }
-        }
-        int res = Math.max(max1*max2*max3, max1*min1*min2);
-        System.out.println(res);
 
+        }
+        //对结果按从大到小排序
+        Collections.sort(res, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        int index = (k > res.size()) ? res.size() : k;
+        for (int i = 0; i < index; i++) {
+            System.out.println(res.get(i));
+        }
     }
 }
