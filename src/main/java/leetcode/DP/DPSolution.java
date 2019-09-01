@@ -151,4 +151,20 @@ public class DPSolution {
 
     }
 
+    //no53,最长连续子数组的和
+    //dp[i] = max(dp[i-1]+a[i], a[i])
+    public int maxSubArray(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int res = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum = Math.max(sum + nums[i], nums[i]);
+            res = Math.max(res, sum);
+        }
+        return res;
+    }
+
+    //最长连续子数组的和，二维
+
+
 }
