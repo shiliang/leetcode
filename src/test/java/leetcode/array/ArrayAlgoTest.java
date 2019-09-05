@@ -106,5 +106,12 @@ public class ArrayAlgoTest {
         int res = algo.longestOnes(input, 2);
     }
 
+    @Test
+    public void splitArray() {
+        int[] input = {1,2147483646};
+        ArrayAlgo algo = new ArrayAlgo();
+        int res = algo.splitArray(input, 1);
+    }
+
 
 }

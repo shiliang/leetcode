@@ -40,4 +40,5 @@ public class ListAlgoTest {
         int[] input = {1,2,4,5,6,3};
         int res = la.largestRectangleArea(input);
     }
+
 }

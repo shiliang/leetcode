@@ -71,49 +71,11 @@ public class ArrayAlgo {
         return leftSum + rightSum;
     }
 
-    //no.31
+    //no.31，按数组中的数字顺序求下一个排列
     public void nextPermutation(int[] nums) {
-        int len = nums.length;
-        if (len < 2) return;
-
-        int[] res = new int[len];
-        int lastEle = nums[len - 1];
-        int k = len - 2;
-        //从后往前找出不满足(nums[k],nums[n])非递增的数
-        for (; k >= 0; k--) {
-            if (lastEle > nums[k]) {
-                break;
-            } else {
-                lastEle = nums[k];
-            }
-
-        }
-
-        //当前为最大排列，逆序
-        if (k < 0) {
-            for (int i = 0; i < (len + 1) / 2; i++) {
-                swap(nums, i, len -1 - i);
-            }
-        } else {
-            //在nums[k+1,n-1]中寻找大于nums[k]的最小数
-            for (int i = len - 1; i > k ; i--) {
-                if (nums[i] > nums[k]) {
-                    swap(nums, i, k);
-                    break;
-                }
-
-            }
-
-
-            //将nums[k+1,n-1]逆序
-            for (int i = k + 1; i < (k + len + 2) / 2; i++) {
-                swap(nums, i, k + len - i);  //len-1-(i-(k+1))
-            }
-        }
-
-        for (int i = 0; i < len; i++) {
-            System.out.println(nums[i]);
-        }
+        /*1.从后往前，找到第一个不是升序的值
+          2.
+        * */
     }
 
     public void swap(int[] nums, int i, int j) {
@@ -451,6 +413,35 @@ public class ArrayAlgo {
         if (j < grid[0].length - 1 && grid[i][j + 1] == '1') {
             destroyIsland(grid, i, j + 1);
         }
+
+    }
+
+    public int splitArray(int[] nums, int m) {
+        //上界与下界
+        long lb = Integer.MIN_VALUE, ub = 0;
+        for (int i = 0; i < nums.length; i++) {
+            ub += nums[i];
+            if (lb < nums[i]) {
+                lb = nums[i];
+            }
+        }
+        while (lb < ub) {
+            long mid = (lb + ub) / 2;
+            int temp = 0, cnt = 1;
+            for (int num : nums) {
+                temp += num;
+                if (temp > mid) {  //换到下一组
+                    temp = num;
+                    cnt += 1;
+                }
+            }
+            if (cnt > m) {
+                lb = mid + 1;
+            }else if (cnt <= m) {
+                ub = mid;
+            }
+        }
+        return (int) lb;
 
     }
 

@@ -212,5 +212,30 @@ public class ListAlgo {
         return res;
     }
 
+    //链表从m到n翻转
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+       if (head == null) return null;
+       ListNode pre = null;
+       ListNode cur = head;
+       int i = 1;
+       for (i = 1; i < m; i++) {
+            pre = cur;
+            cur = cur.next;
+       }
+       ListNode start = pre;
+        pre = cur;
+        cur = cur.next;
+        i++;
+       while (i < n) {
+           pre = cur.next;
+           pre = cur;
+           cur = cur.next;
+       }
+       ListNode tail = pre.next;
+       return tail;
+
+    }
+
+
 
 }
