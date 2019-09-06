@@ -445,8 +445,20 @@ public class ArrayAlgo {
 
     }
 
-
-
+   //547，朋友圈的个数
+   public int findCircleNum(int[][] M) {
+        if (M == null || M.length == 0) return 0;
+        int n = M.length;
+        UnionFind unionFind = new UnionFind(n);
+       for (int i = 0; i < n; i++) {
+           for (int j = i + 1; j < n; j++) {
+               if (M[i][j] == 1) {
+                   unionFind.union(i, j);
+               }
+           }
+       }
+       return unionFind.getCount();
+   }
 
 
 }

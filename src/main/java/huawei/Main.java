@@ -4,31 +4,65 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[][] nums = new int[m][2];
-        int count = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < m; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            if (map.containsKey(a)) {
-                int val = map.get(a);
-                map.put(a, val + 1);
-            } else {
-                map.put(a, 1);
-            }
+    static class Node{
+        char data;
+        Node left;
+        Node right;
 
-        }
-        for (int key : map.keySet()) {
-            int val = map.get(key);
-            if (val % 2 == 0) {
-                count++;
+    }
+
+    static Node Create(Node root, String input) {
+        char[] str = input.toCharArray();
+        Node p = root;
+        Stack<Node> stack = new Stack();
+        int k = 0;
+        for (int i = 0; i < input.length(); i++) {
+            char ch = str[i];
+            switch (ch) {
+                case '(': stack.push(p); k = 1; break;
+                case ')': stack.pop(); break;
+                case ',': k = 2; break;
+                default:
+                    p = new Node();
+                    p.data = ch;
+                    p.left = p.right = null;
+                    if (root == null) root = p;
+                    else {
+                        if (k == 1) stack.peek().left = p;
+                        else stack.peek().right = p;
+                    }
             }
         }
-        System.out.println(count);
+        return root;
+    }
+    static StringBuilder sb = new StringBuilder();
+    static void print(Node root) {
+        if (root == null) return;
+        print(root.left);
+        sb.append(root.data);
+        print(root.right);
+    }
+    static Node root = null;
+    static String solution(String input) {
+        Node q = Create(root, input);
+        print(q);
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String res;
+
+        String _input;
+        try {
+            _input = in.nextLine();
+        } catch (Exception e) {
+            _input = null;
+        }
+
+        res = solution(_input);
+        System.out.println(res);
+
 
     }
 
