@@ -51,4 +51,18 @@ public class TrieTree {
         node.word = word;
     }
 
+    public TrieNode search(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            char curLetter = word.charAt(i);
+            if (node.containsKey(curLetter)) {
+                node = node.get(curLetter);
+            } else {
+                return null;
+            }
+        }
+        return node;
+
+    }
+
 }

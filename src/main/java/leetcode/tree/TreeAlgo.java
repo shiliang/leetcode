@@ -327,4 +327,66 @@ public class TreeAlgo {
         return Math.max(leftSum, rightSum) + root.val;
     }
 
+    //no.662,求二叉树最大宽度
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) return 0;
+        int maxW = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        LinkedList<Integer> indexList = new LinkedList<>();
+        queue.add(root);
+        indexList.add(1);
+        int size = 1; //记录每一层的节点数
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            size--;
+            int index = indexList.removeFirst();
+            if (node.left != null) {
+                queue.add(node.left);
+                indexList.add(2 * index);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+                indexList.add(2 * index + 1);
+            }
+            if (size == 0) {
+                if (indexList.size() >= 2) {
+                    maxW = Math.max(maxW, indexList.getLast() - indexList.getFirst() + 1);
+                }
+                size = queue.size();
+            }
+        }
+        return maxW;
+
+    }
+
+    //二叉树的层序遍历
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        int size = 1;
+        queue.add(root);
+        List<Integer> tmp = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            size--;
+            tmp.add(node.val);
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+
+            if (size == 0) {
+                res.add(new ArrayList<>(tmp));
+                tmp.clear();
+                size = queue.size();
+            }
+
+        }
+        return res;
+
+    }
+
 }
