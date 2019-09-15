@@ -13,5 +13,11 @@ public class BinarySearchTest {
         int res = binarySearch.search(input, 3);
     }
 
+    @Test
+    public void search2() {
+        int[] input = {2,5,6,0,0,1,2};
+        binarySearch.search2(input, 0);
+    }
+
 
 }

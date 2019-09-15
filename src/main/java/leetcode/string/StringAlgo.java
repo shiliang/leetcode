@@ -6,52 +6,6 @@ import java.util.*;
 
 public class StringAlgo {
 
-    public String validIPAddress(String IP) {
-        if (IP.contains(".")) {
-            return IPV4(IP);
-        }
-
-        if (IP.contains(":")) {
-            return IPV6(IP);
-        }
-
-        return "Neither";
-    }
-
-    private String IPV4(String IP) {
-        if (IP.charAt(IP.length() - 1) == '.') {
-            return "Neither";
-        }
-        String[] strings = IP.split("\\.");
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].startsWith("0")) {
-                return "Neither";
-            }
-            try {
-                if (Integer.parseInt(strings[i]) > 255 ||
-                        Integer.parseInt(strings[i]) < 0) {
-                    return "Neither";
-                }
-            } catch (Exception e) {
-                return "Neither";
-            }
-
-        }
-        return "IPv4";
-    }
-
-    private String IPV6(String IP) {
-        if (IP.charAt(IP.length() - 1) == ':') {
-            return "Neither";
-        }
-        String[] strings = IP.split(":");
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].length() > 4 ) {
-                return "Neither";
-            }
-        }
-        return "IPv6";
-    }
 
     //四则运算
     public int calculate(String strExpression)
@@ -416,5 +370,80 @@ public class StringAlgo {
     }
 
     //输入一组数据，求出现次数topk
+
+
+    //no.468 验证是否是有效的ip地址
+    public String validIPAddress(String IP) {
+        if (IP.equals("")) return "Neither";
+        if (isValidIPV4(IP)) return "IPv4";
+        if (isValidIPV6(IP)) return "IPv6";
+        return "Neither";
+    }
+
+    public boolean isValidIPV4(String ip) {
+        if (ip.charAt(0) == '.' || ip.charAt(ip.length() - 1) == '.') return false;
+        String[] tokens = ip.split("\\.");
+        if (tokens.length != 4) return false;
+        for (String token : tokens) {
+            try {
+                if (token.startsWith("0") && token.length() > 1) return false;
+                if (Integer.parseInt(token) > 255 || token.charAt(0) == '-' || token.charAt(0) == '+') return false;
+
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidIPV6(String ip) {
+        if (ip.charAt(0) == ':' || ip.charAt(ip.length() - 1) == ':') return false;
+        String[] tokens = ip.split("\\:");
+        if (tokens.length != 8) return false;
+        for (String token : tokens) {
+            if (token.length() > 4 || token.length() == 0) return false;
+            for (int i = 0; i < token.length(); i++) {
+                if ((token.charAt(i) >= '0' && token.charAt(i) <= '9')
+                    || token.charAt(i) >= 'a' && token.charAt(i) <= 'f'
+                    || token.charAt(i) >= 'A' && token.charAt(i) <= 'F') {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //no.30 以index为起点的子串，包含了word中所有的单词
+    public List<Integer> findSubstring(String s, String[] words) {
+        Map<String, Integer> counts = new HashMap<>();
+        List<Integer> indexs = new ArrayList<>();
+        if (s == null || words == null || s.length() == 0 || words.length == 0) return indexs;
+        for (String word : words) {
+            counts.put(word, counts.getOrDefault(word, 0) + 1);
+        }
+        int n = s.length(), num = words.length, len = words[0].length();
+        for (int i = 0; i <= n - num * len; i++) {
+            Map<String, Integer> seen = new HashMap<>(); //记录一次数组的遍历所记录的单词
+            int j = 0;
+            while (j < num) {  //遍历单词数组
+                String word = s.substring(i + j * len, i + (j + 1) * len); //往前一个单词的长度
+                if (counts.containsKey(word)) {
+                    seen.put(word, seen.getOrDefault(word, 0) + 1);
+                    if (seen.get(word) > counts.getOrDefault(word, 0)) {  //如果在这个范围内出现某单词大于数组中的个数如goodgood
+                        break;
+                    }
+                } else {
+                    break;
+                }
+                j++;
+            }
+            if (j == num) {
+                indexs.add(i);
+            }
+        }
+        return indexs;
+    }
 
 }

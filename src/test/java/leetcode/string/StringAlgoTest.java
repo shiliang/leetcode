@@ -65,4 +65,13 @@ public class StringAlgoTest {
         long a = stringAlgo.parseChineseNumber("三千二百零一万九千七百六十五亿四千三百二十一万九千八百七十六");
         System.out.println(a);
     }
+
+    @Test
+    public void findSubstring() {
+        StringAlgo stringAlgo = new StringAlgo();
+        String s = "wordgoodgoodgoodbestwordgoodbestword";
+        String[] words = {"word","good","best","word"};
+        stringAlgo.findSubstring(s, words);
+
+    }
 }
