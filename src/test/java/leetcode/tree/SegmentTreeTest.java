@@ -11,7 +11,7 @@ public class SegmentTreeTest {
     @Test
     public void build() {
         SegmentTree.SegmentTreeNode root = segmentTree.buildTree(0, input.length - 1, input);
-        segmentTree.querySum(root, 3, 3);
+        segmentTree.updateTree(root, 4, 5);
     }
 
 
