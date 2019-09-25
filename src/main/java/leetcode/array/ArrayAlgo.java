@@ -105,7 +105,7 @@ public class ArrayAlgo {
     }
 
     //有重复的字符
-    public List<String> permuteUnique(String str) {
+    public List<String> permuteUnique2(String str) {
         List<String> res = new ArrayList<>();
         if (str == null || str.length() == 0) return res;
         boolean[] used = new boolean[str.length()];  //初始化全部为false
@@ -124,7 +124,7 @@ public class ArrayAlgo {
         }
         for (int i = 0; i < chars.length; i++) {
             if (used[i]) continue;
-            if (i > 0 && chars[i - 1] == chars[i] && !used[i - 1]) continue;
+            if (i > 0 && chars[i - 1] == chars[i] && !used[i - 1]) continue; //!used[i - 1]为了第一次后面相同的可以加上
             used[i] = true;
             sb.append(chars[i]);
             dfs(chars, used, sb, res);

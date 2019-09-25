@@ -96,7 +96,7 @@ public class ArrayAlgoTest {
     public void permuteUnique() {
         ArrayAlgo algo = new ArrayAlgo();
         List<String> res = new ArrayList<>();
-        res = algo.permuteUnique("AABC");
+        res = algo.permuteUnique2("AABC");
     }
 
     @Test
