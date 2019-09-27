@@ -133,6 +133,7 @@ public class DPSolution {
         return lengthLIS(height);
     }
 
+    //一维数组最长递增子序列  dp[i] = max(dp[i], dp[j] + 1)
     public int lengthLIS(int[] height) {
         int lenlis = 1;
         if (height == null || height.length == 0) return 0;

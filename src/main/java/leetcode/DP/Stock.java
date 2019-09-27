@@ -1,15 +1,17 @@
 package leetcode.DP;
 
 public class Stock {
-    //no.121最多只能买卖一次股票
+    //no.121最多只能买卖一次股票，在最低价格买入，在最高价格卖出
+    //L(i)为到i天的最小价格，P(i)为到i天的最大收益 P[i] = max(P[i - 1], price[i] - L(i))
     public int maxProfit(int[] prices) {
-        int n = prices.length;
-        int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);  //选择卖
-            dp_i_1 = Math.max(dp_i_1, -prices[i]);  //选择买
+        if (prices.length == 0) return 0;
+        int low = prices[0];
+        int[] profit = new int[prices.length];
+        for (int i = 1; i < prices.length; i++) {
+            low = Math.min(low, prices[i]);
+            profit[i] = Math.max(profit[i - 1], prices[i] - low);  //卖出或者什么都不做
         }
-        return dp_i_0;
+        return profit[prices.length - 1];
     }
 
     //no.122 买卖股票的最佳时机||,不限买卖次数，但是买之前必须出售掉之前的股票
@@ -68,4 +70,6 @@ public class Stock {
         }
         return dp[n - 1][max_k][0];
     }
+
+    //309
 }
