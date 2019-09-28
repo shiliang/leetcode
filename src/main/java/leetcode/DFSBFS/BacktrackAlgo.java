@@ -1,5 +1,7 @@
 package leetcode.DFSBFS;
 
+import leetcode.tree.TrieTree;
+
 import java.util.*;
 
 /*
@@ -92,6 +94,16 @@ public class BacktrackAlgo {
                         res);
             }
         }
+    }
+
+    //no.212，使用字典树进行剪枝
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> res = new ArrayList<>();
+        TrieTree trieTree = new TrieTree();
+        for (String word : words) {
+            trieTree.insert(word);
+        }
+        return res;
     }
     
 }

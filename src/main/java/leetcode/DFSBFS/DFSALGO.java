@@ -64,4 +64,35 @@ public class DFSALGO {
             visited[i] = false;
         }
     }
+
+    //no.79在二维矩阵内搜索是否存在字符串,时间复杂度O(M*N*4^L),空间复杂度O(L),L为字符串的长度
+    public boolean exist(char[][] board, String word) {
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (word.charAt(0) == board[i][j] && existdfs(board, word, i, j, 0, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean existdfs(char[][] board, String word, int i, int j, int index, boolean[][] visited) {
+        if (i < 0 || i > board.length - 1 || j < 0 || j > board[0].length - 1
+                || index > word.length() - 1 || board[i][j] != word.charAt(index) || visited[i][j]) {
+            return false;
+        }
+        if (index == word.length() - 1) return true;
+        visited[i][j] = true;
+        if (existdfs(board, word, i + 1, j, index + 1 ,visited)
+                || existdfs(board, word, i - 1, j, index + 1 ,visited)
+                || existdfs(board, word, i, j + 1, index + 1 ,visited)
+                || existdfs(board, word, i, j - 1, index + 1 ,visited)) {
+            return true;
+        }
+        visited[i][j] = false;
+        return false;
+    }
+
 }

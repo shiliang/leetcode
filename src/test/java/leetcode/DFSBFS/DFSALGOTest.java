@@ -18,4 +18,10 @@ public class DFSALGOTest {
         int[] input = {65,44,5,11};
         dfsalgo.numSquarefulPerms(input);
     }
+
+    @Test
+    public void exist() {
+        char[][] board = {{'a'},{'a'}};
+        dfsalgo.exist(board, "aaa");
+    }
 }
