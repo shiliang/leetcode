@@ -99,24 +99,7 @@ public class DPSolution {
     //最长公共子序列
 
 
-    public String longestPalindrome(String s) {
-        if (s == null || s.length() == 0) return "";
-        int len = s.length();
-        int maxLen = 0, left = 0, right = 0;
-        boolean[][] dp = new boolean[len][len];
-        for (int i = len - 1; i >= 0; i--) {
-            dp[i][i] = true;
-            for (int j = i + 1; j < len; j++) {
-                dp[i][j] = (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1]));
-                if (dp[i][j] && maxLen < j - i + 1) {
-                    maxLen = j - i + 1;
-                    left = i;
-                    right = j + 1;
-                }
-            }
-        }
-        return s.substring(left, right);
-    }
+
 
     //no 354
     public int maxEnvelopes(int[][] envelopes) {
@@ -163,6 +146,96 @@ public class DPSolution {
             res = Math.max(res, sum);
         }
         return res;
+    }
+
+    //no.91解码方式,dp[i]表示前i个字符组成的子串的解码个数
+    //dp[i] = dp[i - 1] + dp[i - 2]，类似于爬楼梯，和前面两个状态有关
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = (s.charAt(i - 1) == '0' ? 0 : dp[i - 1]);
+            //前面两位为10到26之间
+            if (i > 1 && (s.charAt(i - 2) == '1' || (s.charAt(i - 2) == '2' && s.charAt(i - 1) <= '6'))) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[n];
+    }
+
+    //no.639 解码方式中*可以表示1-9的数字
+    public int numDecodings2(String s) {
+        if (s == null || s.length() == 0 || s.charAt(0) == '0') return 0;
+        int n = s.length();
+        long[] dp = new long[n + 1];
+        dp[0] = 1;
+        dp[1] = (s.charAt(0) == '*' ? 9 : 1);
+        for (int i = 2; i <= n; i++) {
+            char first = s.charAt(i - 2);
+            char second = s.charAt(i - 1);
+
+            if (second == '*') {
+                dp[i] += 9 * dp[i - 1];  //和前面一位的排列数,前一位有dp[i-1]种方式，dp[i]有9种方式
+            } else if (second > '0') {
+                dp[i] += dp[i - 1];
+            }
+
+            if (first == '*') {
+                if (second == '*') {
+                    dp[i] += 15 * dp[i - 2]; //两位数可以合并 11....26
+                } else if (second <= '6') {
+                    dp[i] += 2 * dp[i - 2];  //第二位可以取1或者2
+                } else {
+                    dp[i] += dp[i - 2];
+                }
+
+            } else if (first == '1' || first == '2') {
+                if (second == '*') {
+                    if (first == '1') {
+                        dp[i] += 9 * dp[i - 2];
+                    } else {
+                        dp[i] += 6 * dp[i - 2];
+                    }
+                } else if (((first - '0') * 10 + (second - '0') ) <= 26) {
+                    dp[i] += dp[i - 2];
+                }
+            }
+            dp[i] %= 1000000007;
+        }
+        return (int) dp[n];
+    }
+
+    //no.801有两个状态0表示不交换，1表示交换
+    public int minSwap(int[] A, int[] B) {
+        int n = A.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 2; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        dp[0][0] = 0;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; i++) {
+            if (A[i] > A[i - 1] && B[i] > B[i - 1]) {
+                dp[i][0] = dp[i - 1][0]; //不交换
+                dp[i][1] = dp[i - 1][1] + 1; //交换的话前面的数也要交换
+            }
+
+            if (A[i] > B[i - 1] && B[i] > A[i - 1]) {
+                dp[i][0] = Math.min(dp[i][0], dp[i - 1][1]); //当前位固定，交换前面一位
+                dp[i][1] = Math.min(dp[i][1], dp[i - 1][0] + 1); //交换当前位，固定前一位
+            }
+
+        }
+        return Math.min(dp[n - 1][0], dp[n - 1][1]);
+    }
+
+    //no.926 移动字符使得字符串变成递增
+    public int minFlipsMonoIncr(String S) {
+        return 0;
     }
 
 
