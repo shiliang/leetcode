@@ -33,7 +33,7 @@ public class SegmentTree {
             root.sum = val;
             return;
         }
-        int mid = root.start + root.end / 2;
+        int mid = (root.start + root.end) / 2;
         if (index <= mid) { //在树的左边部分中
             updateTree(root.left, index, val);
         } else {
@@ -47,7 +47,7 @@ public class SegmentTree {
             return root.sum;  //正好落在这个范围内
         }
         int mid = (root.start + root.end) / 2;
-        if (j < mid) {
+        if (j <= mid) {
             //全部落在左子树中
             return querySum(root.left, i, j);
         } else if (i > mid) {
