@@ -312,20 +312,7 @@ public class TreeAlgo {
         visited[i][j] = false;
     }
 
-    private int maxSum = Integer.MIN_VALUE;
-    public int maxPathSum(TreeNode root) {
-        maxPathSumHelper(root);
-        return maxSum;
-    }
 
-    public int maxPathSumHelper(TreeNode root) {
-        if (root == null) return 0;
-        //如果穿过节点，节点的值加上左右子树的值
-        int leftSum = Math.max(0, maxPathSumHelper(root.left));
-        int rightSum = Math.max(0, maxPathSumHelper(root.right));
-        maxSum = Math.max(maxSum, leftSum + rightSum + root.val);
-        return Math.max(leftSum, rightSum) + root.val;
-    }
 
     //no.662,求二叉树最大宽度
     public int widthOfBinaryTree(TreeNode root) {
@@ -386,6 +373,67 @@ public class TreeAlgo {
 
         }
         return res;
+
+    }
+
+    //no.652,寻找重复的子树
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        HashMap<String, Integer> counts = new HashMap<>();
+        List<TreeNode> ans = new ArrayList<>();
+        findDuplicateSubtreeshelper(root, counts, ans);
+        return ans;
+    }
+
+    public String findDuplicateSubtreeshelper(TreeNode root, HashMap<String, Integer> counts, List<TreeNode> ans) {
+        if (root == null) return "#";
+        StringBuilder key = new StringBuilder();
+        key.append(root.val);
+        key.append(",");
+        key.append(findDuplicateSubtreeshelper(root.left, counts, ans));
+        key.append(",");
+        key.append(findDuplicateSubtreeshelper(root.right, counts, ans));
+        counts.put(key.toString(), counts.getOrDefault(key.toString(), 0) + 1);
+        if (counts.get(key.toString()) == 2) {
+            ans.add(root);
+        }
+        return key.toString();
+    }
+
+    //no.124二叉树中的最大路径和
+    private int maxSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxPathSumHelper(root);
+        return maxSum;
+    }
+
+    public int maxPathSumHelper(TreeNode root) {
+        if (root == null) return 0;
+        //如果穿过节点，节点的值加上左右子树的值
+        int leftSum = Math.max(0, maxPathSumHelper(root.left));
+        int rightSum = Math.max(0, maxPathSumHelper(root.right));
+        maxSum = Math.max(maxSum, leftSum + rightSum + root.val);
+        return Math.max(leftSum, rightSum) + root.val; //返回只能返回一条边
+    }
+
+    //no.687 返回相同值的最长路径
+    int ans = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if (root == null) return 0;
+        univaluePath(root);
+        return ans;
+    }
+
+    public int univaluePath(TreeNode root) {
+        if (root == null) return 0;
+        int l = univaluePath(root.left);
+        int r = univaluePath(root.right);
+        int pl = 0;
+        int pr = 0;
+        //路径的个数是边的个数
+        if (root.left != null && root.val == root.left.val) pl = l + 1;
+        if (root.right != null && root.val == root.right.val) pr = r + 1;
+        ans = Math.max(ans, pl + pr);
+        return Math.max(pl, pr);
 
     }
 

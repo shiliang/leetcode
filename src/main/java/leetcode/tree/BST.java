@@ -42,5 +42,29 @@ public class BST {
         return true;
     }
 
+    //no.450在二叉搜索树中删除某个节点
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return root;
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            if (root.left != null && root.right != null) {
+                //在右子树中找出最靠左的节点
+                TreeNode min = root.right;
+                while (min.left != null) min = min.left;
+                root.val = min.val;
+                root.right = deleteNode(root.right, min.val); //把右子树中最左边的左子树节点删除
+            } else {
+                TreeNode newNode = root.left == null ? root.right : root.left;
+                return newNode;
+            }
+
+
+        }
+
+        return root;
+    }
 
 }

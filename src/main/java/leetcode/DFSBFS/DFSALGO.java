@@ -95,4 +95,53 @@ public class DFSALGO {
         return false;
     }
 
+    public void solveSudoku(char[][] board) {
+        boolean[][] rows = new boolean[9][10];  //第i行的1-9有没有被使用过
+        boolean[][] cols = new boolean[9][10];  //第j列的1-9有没有被使用过
+        boolean[][] boxs = new boolean[9][10];  //在第i个盒子里面的元素n有没有被使用过
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '0';
+                    rows[i][num] = true;
+                    cols[j][num] = true;
+                    boxs[i / 3 * 3 + j / 3][num] = true;
+                }
+            }
+        }
+        solveSudokudfs(board, rows, cols, boxs, 0, 0);
+    }
+
+    private boolean solveSudokudfs(char[][] board,boolean[][] rows, boolean[][] cols,
+                        boolean[][] boxs, int i, int j) {
+        while (board[i][j] != '.') {
+            if (++j >= 9) {
+                i++;
+                j = 0; //换到下一行
+            }
+            if (i >= 9) return true; //到最下面一行，搜索结束
+        }
+
+        for (int num = 1; num <= 9; num++) {
+            int boxIndex = i / 3 * 3 + j / 3;
+            if (!rows[i][num] && !cols[i][num] && !boxs[i][num]) {
+                board[i][j] = (char) ('0' + num);
+                rows[i][num] = true;
+                cols[j][num] = true;
+                boxs[boxIndex][num] = true;
+                if (solveSudokudfs(board, rows, cols, boxs, i, j)) {
+                    return true;  //寻找下一个需要填充的格子
+                } else {
+                    //回溯
+                    rows[i][num] = false;
+                    cols[i][num] = false;
+                    boxs[boxIndex][num] = false;
+                    board[i][j] = '.';
+                }
+            }
+        }
+        return false;
+    }
+
 }
