@@ -26,14 +26,6 @@ public class ArrayAlgoTest {
 
     }
 
-    @Test
-    public void Permu() {
-        ArrayAlgo algo = new ArrayAlgo();
-        List<List<Integer>> list = new ArrayList<>();
-        int[] nums = {1,2,3};
-        list = algo.permute(nums);
-        
-    }
 
     int[] input = {1,2,3};
 
@@ -44,11 +36,6 @@ public class ArrayAlgoTest {
         algo.coinChange(input,11);
     }
 
-    @Test
-    public void subsets() {
-        ArrayAlgo algo = new ArrayAlgo();
-        algo.subsets(input);
-    }
 
     @Test
     public void getCubeRoot() {

@@ -184,6 +184,61 @@ public class GraphSolution {
         return false;
 
     }
+
+    //no.1129颜色交替的最短路径
+    public int[] shortestAlternatingPaths(int n, int[][] red_edges, int[][] blue_edges) {
+        List<Integer>[] reds = new ArrayList[n], blues = new ArrayList[n];
+        //构造邻接链表表示有向图
+        for (int[] e : red_edges) {
+            if (reds[e[0]] == null) {
+                reds[e[0]] = new ArrayList<>();
+            }
+            reds[e[0]].add(e[1]);
+        }
+
+        for (int[] e : blue_edges) {
+            if (blues[e[0]] == null) {
+                blues[e[0]] = new ArrayList<>();
+            }
+            blues[e[0]].add(e[1]);
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        int[] res = new int[n];   //节点0到节点i的最短路径
+        Arrays.fill(res, -1);
+        queue.add(new int[]{0, 0});
+        int moves = 0;  //记录路径即边的条数,bfs的层次数
+        Set<String> seen = new HashSet<>();
+        while (!queue.isEmpty()) {
+            int size = queue.size();  //bfs
+            for (int i = 0; i < size; i++) {
+                int[] curr = queue.poll();  //curr[0]表示节点, curr[1]表示着色
+                String key = curr[0] + " " + curr[1];
+                if (seen.contains(key)) continue;  //存在环的话，之前的节点还会被重新着色
+                seen.add(key);
+                if (res[curr[0]] == -1) res[curr[0]] = moves;
+                //1-red, 2-blue   curr[1]的状态
+                if (curr[1] == 2 || curr[1] == 0) {  //如果是2蓝色，下一条边应该着红色
+                    if (reds[curr[0]] != null) {  //存在着邻接边
+                        for (int child : reds[curr[0]]) {
+                            queue.add(new int[]{child, 1});
+                        }
+                    }
+                }
+                if (curr[1] == 1 || curr[1] == 0) {
+                    if (blues[curr[0]] != null) {
+                        for (int child : blues[curr[0]]) {
+                            queue.add(new int[]{child, 2});
+                        }
+                    }
+                }
+
+            }
+            moves++;
+
+        }
+        return res;
+
+    }
     
 
 

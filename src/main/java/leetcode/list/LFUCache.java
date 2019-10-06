@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 public class LFUCache {
-    private HashMap<Integer, Integer> keyVals;
+    private HashMap<Integer, Integer> keyVals;  //kv存储
     private HashMap<Integer, Integer> keyCounts; //每个key的使用次数，主要作用是存储当前key的频率便于放到countKeySets中
     private HashMap<Integer, LinkedHashSet<Integer>> countKeySets;  //相同的次数对应的key，如果在前面说明最近最少使用
 
@@ -26,7 +26,7 @@ public class LFUCache {
         int count = keyCounts.get(key);
         keyCounts.put(key, count + 1);
         countKeySets.get(count).remove(key);
-        if (count == min && countKeySets.get(count).size() == 0) {
+        if (count == min && countKeySets.get(count).size() == 0) {  //取的数正好是最少使用的次数，则把最少使用的次数加一
             min++;
         }
         if (!countKeySets.containsKey(count + 1)) {
@@ -43,7 +43,7 @@ public class LFUCache {
             return;
         }
 
-        if (keyVals.size() >= capacity) {
+        if (keyVals.size() >= capacity && capacity != 0) {
             int leastFreq = countKeySets.get(min).iterator().next(); //如果频率相同，返回最近最少使用的那个,能否用链表代替？
             keyVals.remove(leastFreq);
             keyCounts.remove(leastFreq);
