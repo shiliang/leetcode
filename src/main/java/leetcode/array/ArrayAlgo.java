@@ -163,39 +163,25 @@ public class ArrayAlgo {
 
     //两个有序的数组找中位数
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int n1 = nums1.length;
-        int n2 = nums2.length;
-        //如果n1大于n2交换一下
-        if (n1 > n2) return findMedianSortedArrays(nums2, nums1);
-
-        int k = (n1 + n2 + 1) / 2;
-        int left = 0;
-        int right = n1;
-        //对小的数组进行二分法搜索
-        //m1和m2指合成数组中nums1数组占前m1个元素,nums2数组占前m2个元素, m1+m2=k
-        while (left < right) {
-            int m1 = left + (right - left) / 2;
-            int m2 = k - m1;
-            //如果小的话num1中m个元素太少继续增加
-            if (nums1[m1] < nums2[m2 - 1]) {
-                left = m1 + 1;
+        int m = nums1.length;
+        int n = nums2.length;
+        int len = m + n;
+        if (n == 0) return findMedianSortedArrays(nums2, nums1);
+        int left = -1, right = -1;
+        int index1 = 0, index2 = 0;
+        for (int i = 0; i <= len / 2; i++) {
+            left = right;
+            if (index1 < m && (index2 >= n || nums1[index1] < nums2[index2])) {
+                right = nums1[index1++];  //index2 >= n说明num2已经遍历完了但是还没到一半
             } else {
-                right = m1;
+                right = nums2[index2++];
             }
-        }
-        int m1 = left;
-        int m2 = k - left;
-        int c1 = Math.max(m1 <= 0 ? Integer.MIN_VALUE : nums1[m1 - 1],
-                m2 <= 0 ? Integer.MIN_VALUE : nums2[m2 - 1] );
 
-        if ((n1 + n2) % 2 == 1) {
-            return c1;
+
         }
 
-        //偶数的中位数
-        int c2 = Math.min(m1 >= n1 ? Integer.MAX_VALUE : nums1[m1],
-                         m2 >= n2 ? Integer.MAX_VALUE: nums2[m2]);
-        return (c1 + c2)  * 0.5;
+        if (len % 2 == 0) return (left + right) / 2.0;
+        else return right;
     }
 
     //丑数，空间换时间

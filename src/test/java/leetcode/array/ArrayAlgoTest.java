@@ -36,6 +36,14 @@ public class ArrayAlgoTest {
         algo.coinChange(input,11);
     }
 
+    @Test
+    public void findMedianSortedArrays() {
+        ArrayAlgo algo = new ArrayAlgo();
+        int[] nums1 = {1,2};
+        int[] nums2 = {3,4};
+        algo.findMedianSortedArrays(nums1, nums2);
+    }
+
 
     @Test
     public void getCubeRoot() {

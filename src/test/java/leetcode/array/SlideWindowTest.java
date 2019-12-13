@@ -35,8 +35,17 @@ public class SlideWindowTest {
         String res = slideWindow.minSqeWindow(S, T);
     }
 
+
     @Test
-    public void sprint() {
-        System.out.println(-8 % 2);
+    public void findAnagrams() {
+        String s = "aa";
+        String p = "bb";
+        slideWindow.findAnagrams(s, p);
+    }
+
+    @Test
+    public void lengthOfLongestSubstringTwoDistinct() {
+        String s = "cdaba";
+        slideWindow.lengthOfLongestSubstringTwoDistinct(s);
     }
 }

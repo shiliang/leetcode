@@ -22,4 +22,10 @@ public class DFSALGOTest {
 
         dfsalgo.solveSudoku(board);
     }
+
+    @Test
+    public void restoreIpAddresses() {
+        String s = "101011010";
+        dfsalgo.restoreIpAddresses(s);
+    }
 }

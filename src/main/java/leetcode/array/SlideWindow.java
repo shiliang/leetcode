@@ -75,41 +75,6 @@ public class SlideWindow {
         return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
     }
 
-    //no.438 找到字符串中所有字母
-    public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> res = new ArrayList<>();
-        if (s == null || p == null) return res;
-        int left = 0, right = 0;
-        HashMap<Character, Integer> window = new HashMap<>(); //记录left到right区间字符的个数
-        HashMap<Character, Integer> needs = new HashMap<>();
-        for (char c : p.toCharArray()) {
-            needs.put(c, needs.getOrDefault(c , 0) + 1);
-        }
-        int match = 0;
-        while (right < s.length()) {
-            char c1 = s.charAt(right);
-            if (needs.containsKey(c1)) {
-                window.put(c1, window.getOrDefault(c1, 0) + 1);
-                if (window.get(c1) == needs.get(c1)) match++;
-            }
-            right++;
-            while (match == needs.size()) {
-                if (right - left == p.length()) {
-                    res.add(left);
-                }
-                char c2 = s.charAt(left);
-                if (needs.containsKey(c2)) {
-                    window.put(c2, window.get(c2) - 1);
-                    if (window.get(c2) < needs.get(c2)) {
-                        match--;
-                    }
-                }
-                left++;
-            }
-        }
-        return res;
-
-    }
 
     //no.3无重复字符的最长子串
     public int lengthOfLongestSubstring(String s) {
@@ -120,7 +85,7 @@ public class SlideWindow {
             char c1 = s.charAt(right);
             window.put(c1, window.getOrDefault(c1, 0) + 1);
             right++;
-            while (window.get(c1) > 1) {
+            while (window.get(c1) > 1) {  //指针走到后面第一个不带有重复字符的地方
                 char c2 = s.charAt(left);
                 window.put(c2, window.get(c2) - 1);
                 left++;
@@ -154,6 +119,55 @@ public class SlideWindow {
         }
         return (start != -1) ? S.substring(start, start + minLen) : "";
 
+    }
+
+    //no.438
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<Integer>();
+        int n = s.length();
+        int l = p.length();
+        if (n < l) return res;
+        int[] hs = new int[26];
+        int[] hp = new int[26];
+        for (int i = 0; i < l; i++) {
+            hp[p.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < n; i++) {
+            if (i >= l) {
+                hs[s.charAt(i - l) - 'a']--; //把最左边的字符状态删除
+            }
+            hs[s.charAt(i) - 'a']++;
+            if (isSame(hs, hp)) res.add(i-l+1);
+        }
+        return res;
+    }
+
+    //比较两个hash数组所含有的字符是否相同
+    private boolean isSame(int[] a, int[] b) {
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) return false;
+        }
+        return true;
+    }
+
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        int res = 0;
+        if (s.length() <= 0) return res;
+        int left = 0, right = 0;
+        HashMap<Character, Integer> map = new HashMap<>(); //字符，最右的下标
+        while (right < s.length()) {
+            if (map.size() < 3) {
+                map.put(s.charAt(right), right++);
+            }
+
+            if (map.size() == 3) {
+                int index = Collections.min(map.values());
+                map.remove(s.charAt(index));
+                left = index + 1;
+            }
+            res = Math.max(res, right - left);
+        }
+        return res;
     }
 
 

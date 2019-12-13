@@ -276,41 +276,6 @@ public class TreeAlgo {
         return null;
     }
 
-    //212，单词搜索II
-    public List<String> findWords(char[][] board, String[] words) {
-        TrieTree trieTree = new TrieTree();
-        for (String w : words) {
-            trieTree.insert(w);
-        }
-        List<String> res = new ArrayList<>();
-        int m = board.length;
-        int n = board[0].length;
-        boolean[][] visited = new boolean[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                dfs(board, visited, i, j, m, n, trieTree.root, res);
-            }
-        }
-        return res;
-
-    }
-
-    public void dfs(char[][] board, boolean[][] visited,
-                    int i, int j, int m, int n,
-                    TrieTree.TrieNode node, List<String> res) {
-        if (i < 0 || j < 0 || i >= m || j >= n || visited[i][j]) return;
-        node = node.get(board[i][j]);
-        if (node == null) return;
-        if (node.isEnd()) {
-            res.add(node.word);
-        }
-        visited[i][j] = true;
-        dfs(board, visited, i + 1, j, m, n, node, res);
-        dfs(board, visited, i - 1, j, m, n, node, res);
-        dfs(board, visited, i, j + 1, m, n, node, res);
-        dfs(board, visited, i, j - 1, m, n, node, res);
-        visited[i][j] = false;
-    }
 
 
 
