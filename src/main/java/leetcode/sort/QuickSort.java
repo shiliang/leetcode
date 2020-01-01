@@ -94,56 +94,38 @@ public class QuickSort {
         nums[r] = temp;
     }
 
-    //
-
 
     //no.148 两种方法一种快排，一种归并排序
-    //单链表快排,把头结点当支点，
+    //单链表快排
     public ListNode linklistQuickSort(ListNode head) {
+        //快排
         if (head == null || head.next == null) return head;
-        ListNode left = new ListNode(0), leftHead = left;
-        ListNode right = new ListNode(0), rightHead = right;
-        ListNode mid = new ListNode(0), midHead = mid;
-        int val = head.val;
-        while (head != null) {
-            if (head.val < val) {
-                left.next = head; //小的放在head左边
-                left = head;
-            }
+        ListNode dummy = new ListNode(-1); //哨兵
+        dummy.next = head;
+        return quickSortHelper(dummy, null);
+    }
 
-            if (head.val > val) {
-                right.next = head;
-                right = head;
+    private ListNode quickSortHelper(ListNode head, ListNode end) {
+        if (head == end || head.next == end) return head;
+        ListNode tmpHead = new ListNode(-1);
+        ListNode partition = head.next, p = partition, tp = tmpHead;
+        //把小于划分节点值的节点放在tp临时链表上
+        while (p.next != end) {
+            if (p.next.val < partition.val) {
+                tp.next = p.next;
+                tp = tp.next;
+                p.next = p.next.next;
+            } else {
+                p = p.next;
             }
-            if (head.val == val) {
-                mid.next = head;
-                mid = head;
-            }
-            head = head.next;
         }
-        left.next = null;
-        right.next = null;
-        mid.next = null;
-        return concat(linklistQuickSort(leftHead.next), midHead.next, linklistQuickSort(rightHead.next));
-    }
-
-    //left***mid***right,把三个部分连接起来
-    public ListNode concat(ListNode left, ListNode mid, ListNode right) {
-        ListNode LeftTail = getTail(left);
-        ListNode midTail = getTail(mid);
-        midTail.next = right;
-        if (LeftTail != null) {
-            LeftTail.next = mid;  //如果左边部分没有结点
-            return left;
-        } else {
-            return mid;
-        }
+        //合并链表
+        tp.next = head.next;
+        head.next = tmpHead.next;
+        quickSortHelper(head, partition);  //partition开区间不参与排序
+        quickSortHelper(partition, end);
+        return head.next;
     }
 
 
-    public ListNode getTail(ListNode head) {
-        if (head == null) return head;
-        while (head.next != null) head = head.next;
-        return head;
-    }
 }
