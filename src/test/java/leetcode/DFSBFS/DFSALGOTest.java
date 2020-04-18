@@ -25,7 +25,7 @@ public class DFSALGOTest {
 
     @Test
     public void restoreIpAddresses() {
-        String s = "101011010";
+        String s = "25525511135";
         dfsalgo.restoreIpAddresses(s);
     }
 }

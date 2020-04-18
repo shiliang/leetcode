@@ -1,4 +1,4 @@
-package leetcode.systemdesign;
+package leetcode.design;
 
 /*
     你需要设计一个能提供下面两个函数的文件系统：

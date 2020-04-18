@@ -73,9 +73,39 @@ public class ArrayAlgo {
 
     //no.31，按数组中的数字顺序求下一个排列
     public void nextPermutation(int[] nums) {
-        /*1.从后往前，找到第一个不是升序的值
-          2.
-        * */
+        int len = nums.length;
+
+        for (int i = len - 1; i > 0; i--) {
+            if (nums[i] > nums[i - 1]) {
+                int next = find(i - 1, len - 1, nums);
+                swap(nums, i - 1, next);
+                reverse(nums, i, len - 1);
+                return;
+            } else if (i == 1) {
+                reverse(nums, 0, len - 1);
+                return;
+            }
+        }
+    }
+
+    public int find(int i, int j, int[] nums) {
+        int next = 0;
+        while (j > i) {
+            if (nums[j] > nums[i]) {
+                next = j;
+                break;
+            }
+            j--;
+        }
+        return next;
+    }
+
+    public void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
     }
 
     public void swap(int[] nums, int i, int j) {

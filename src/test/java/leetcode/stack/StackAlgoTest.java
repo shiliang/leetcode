@@ -9,7 +9,7 @@ public class StackAlgoTest {
     StackAlgo stackAlgo = new StackAlgo();
     @Test
     public void largestRectangleArea() {
-        int[] input = {1};
+        int[] input = {2,1,5,6,2,3};
         stackAlgo.largestRectangleArea(input);
     }
 

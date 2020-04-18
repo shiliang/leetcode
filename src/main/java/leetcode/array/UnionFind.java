@@ -1,15 +1,16 @@
 package leetcode.array;
 
 public class UnionFind {
-    private int[] parent, rank;  //rank表示树高
+    private int[] parent, size;  //size记录树的重量
     private int count = 0; //树的节点的个数
 
     public UnionFind(int n) {
         count = n;
         parent = new int[n];
-        rank = new int[n];
+        size = new int[n];
         for (int i = 0; i < n; i++) {
             parent[i] = i;  //初始化父节点指向自己
+            size[i] = 1;
         }
     }
 
@@ -27,20 +28,26 @@ public class UnionFind {
         int rootP = find(p);
         int rootQ = find(q);
         if (rootP == rootQ) return;
-        if (rank[rootP] < rank[rootQ]) {
+        if (size[rootP] < size[rootQ]) {  //树矮的指向树高的即以树高的作为父节点来保持树的平衡
             parent[rootP] = rootQ;
+            size[rootQ] += size[rootP];
         } else {
             parent[rootQ] = rootP;
-            if (rank[rootP] == rank[rootQ]) {  //如果是两个子树高度相等
-                rank[rootP]++;
-            }
+            size[rootP] += size[rootQ];
         }
 
-        count--;
+        count--;  //联通分量减一
     }
 
     //一共有多少个连通分量
     public int getCount() {
         return count;
+    }
+
+    //判断两个节点的连通性
+    public boolean connected(int p, int q) {
+        int rooP = find(p);
+        int rooQ = find(q);
+        return rooP == rooQ;
     }
 }

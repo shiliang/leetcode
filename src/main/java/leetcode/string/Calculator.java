@@ -3,10 +3,56 @@ package leetcode.string;
 import java.util.Stack;
 
 public class Calculator {
+
+
     //224,基本计算器,符号只有加减左括号右括号
     public int basiccalculate(String s) {
-        int res = 0;
-        return res;
+        Stack<Integer> nums = new Stack<>();   //存储操作数
+        Stack<Character> ops = new Stack<>(); //存储操作符
+        String str = s.replace(" ", "");
+        int i = 0;
+        while (i < str.length()) {
+            //3个分枝，'(',其他三个符号'+''-'')',数字
+            if (str.charAt(i) == '(') {
+                ops.push('(');
+                i++;
+            } else if (str.charAt(i) == '+' || str.charAt(i) == '-' || str.charAt(i) == ')') {
+                while (!ops.isEmpty() && (ops.peek() == '+' || ops.peek() == '-')) {
+                    int b = nums.pop();
+                    int a = nums.pop();
+                    char op = ops.pop();
+                    if (op == '+') {
+                        nums.push(a + b);
+                    } else if (op == '-') {
+                        nums.push(a - b);
+                    }
+                }
+                if (str.charAt(i) == ')') {
+                    if (!ops.isEmpty() && ops.peek() == '(') ops.pop();
+                } else {
+                    ops.push(str.charAt(i));
+                }
+                i++;
+            } else {
+                int r = 0;
+                while (i < str.length() && Character.isDigit(str.charAt(i))) {
+                    r = 10 * r + (str.charAt(i++) - '0');
+                }
+                nums.push(r);
+            }
+        }
+        //计算剩下的数
+        while (!ops.isEmpty()) {
+            int b = nums.pop();
+            int a = nums.pop();
+            char op = ops.pop();
+            if (op == '+') {
+                nums.push(a + b);
+            } else if (op == '-') {
+                nums.push(a - b);
+            }
+        }
+        return nums.peek();
     }
 
     //772,加减乘除左右括号

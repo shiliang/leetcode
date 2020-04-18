@@ -97,12 +97,37 @@ public class QuickSort {
 
     //no.148 两种方法一种快排，一种归并排序
     //单链表快排
-    public ListNode linklistQuickSort(ListNode head) {
-        //快排
+    public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) return head;
-        ListNode dummy = new ListNode(-1); //哨兵
-        dummy.next = head;
-        return quickSortHelper(dummy, null);
+        ListNode left = new ListNode(-1), mid = new ListNode(-1), right = new ListNode(-1); //三个哨兵
+        ListNode ltail = left, mtail = mid, rtail = right;
+        int val = head.val;
+        for (ListNode p = head; p != null; p = p.next) {
+            if (p.val < val) {
+                ltail.next = p;
+                ltail = ltail.next;
+            } else if (p.val == val){
+                mtail.next = p;
+                mtail = mtail.next;
+            } else {
+                rtail.next = p;
+                rtail = rtail.next;
+            }
+        }
+        ltail.next = mtail.next = rtail.next = null;
+        left.next = sortList(left.next);
+        right.next = sortList(right.next);
+        //合并三个链表
+        ListNode leftTail = left.next == null ? left : getTail(left.next);
+        ListNode midTail = getTail(mid.next);
+        leftTail.next = mid.next;
+        midTail.next = right.next;
+        return left.next;
+    }
+
+    public ListNode getTail(ListNode head) {
+        while (head.next != null) head = head.next;
+        return head;
     }
 
     private ListNode quickSortHelper(ListNode head, ListNode end) {

@@ -21,7 +21,7 @@ public class ArrayAlgoTest {
     @Test
     public void nextPermutation() {
         ArrayAlgo algo = new ArrayAlgo();
-        int[] nums = {1,2,3};
+        int[] nums = {2,3,1};
         algo.nextPermutation(nums);
 
     }

@@ -3,68 +3,37 @@ package huawei;
 import java.util.*;
 
 public class Main {
-
-    static class Node{
-        char data;
-        Node left;
-        Node right;
-
-    }
-
-    static Node Create(Node root, String input) {
-        char[] str = input.toCharArray();
-        Node p = root;
-        Stack<Node> stack = new Stack();
-        int k = 0;
-        for (int i = 0; i < input.length(); i++) {
-            char ch = str[i];
-            switch (ch) {
-                case '(': stack.push(p); k = 1; break;
-                case ')': stack.pop(); break;
-                case ',': k = 2; break;
-                default:
-                    p = new Node();
-                    p.data = ch;
-                    p.left = p.right = null;
-                    if (root == null) root = p;
-                    else {
-                        if (k == 1) stack.peek().left = p;
-                        else stack.peek().right = p;
-                    }
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String in = sc.nextLine();
+        String[] ins = in.split(" ");
+        int len1 = ins[0].length();
+        int len2 = ins[1].length();
+        int[] nums = new int[Math.max(len1, len2) + 1];
+        int index = nums.length - 1;
+        int i = 0, j = 0;
+        for (i = len1 - 1,j = len2 - 1; i >= 0 || j >= 0; i--, j--) {
+            int val1 = i >= 0 ? (ins[0].charAt(i) - '0') : 0;
+            int val2 = j >= 0 ? (ins[1].charAt(j) - '0') : 0;
+            int sum = val1  + val2 + nums[index];
+            if (sum >= 10) {
+                nums[index--] = sum % 10;
+                nums[index] += 1;
+            } else {
+                nums[index--] = sum;
             }
         }
-        return root;
-    }
-    static StringBuilder sb = new StringBuilder();
-    static void print(Node root) {
-        if (root == null) return;
-        print(root.left);
-        sb.append(root.data);
-        print(root.right);
-    }
-    static Node root = null;
-    static String solution(String input) {
-        Node q = Create(root, input);
-        print(q);
-        return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String res;
-
-        String _input;
-        try {
-            _input = in.nextLine();
-        } catch (Exception e) {
-            _input = null;
+        StringBuilder sb = new StringBuilder();
+        int cnt = 0;
+        while (nums[cnt] == 0) cnt++;
+        for (int k = cnt; k < nums.length; k++) {
+            sb.append(nums[k]);
         }
-
-        res = solution(_input);
-        System.out.println(res);
+        System.out.println(sb.toString());
 
 
     }
+
 
 
 

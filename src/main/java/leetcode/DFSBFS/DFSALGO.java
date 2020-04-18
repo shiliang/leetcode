@@ -87,23 +87,45 @@ public class DFSALGO {
     }
 
     public List<String> restoreIpAddresses(String s) {
-        List<String> res = new ArrayList<String>();
-        helper(s, 0, "", res);
+        List<String> res = new ArrayList<>();
+        //生成4段ip地址
+        if (s.length() > 12 || s.length() < 4) return res;
+        restore(s, new ArrayList<>(), 0, 4, res);
         return res;
     }
 
-    public void helper(String s, int n, String out, List<String> res) {
-        if (n == 4) {
-            if (s.isEmpty()) res.add(out);
+    //需要分割的字符串，n为第几段ip地址，ip为当前生成的ip字符串
+    public void restore(String s, List<String> path, int begin, int remain, List<String> res) {
+        if (begin == s.length()) {
+            if (remain == 0) {
+                res.add(String.join(".", path));
+            }
             return;
         }
-
-        for (int k = 1; k < 4; ++k) {
-            if (s.length() < k) break;
-            int val = Integer.parseInt(s.substring(0, k));
-            if (val > 255 || k != String.valueOf(val).length()) continue;
-            helper(s.substring(k), n + 1, out + s.substring(0, k) + (n == 3 ? "" : "."), res);
+        //这一段需要截取的位数，最大为3位
+        for (int i = begin; i < begin + 3; i++) {
+            //先剪枝
+            if (i >= s.length()) break;
+            if (remain * 3 < s.length() - i) continue; //剩下的字符按照最大3个一段仍然小于
+            if (judgeIpSegment(s, begin, i)) {
+                String currentSegment = s.substring(begin, i + 1);
+                path.add(currentSegment);
+                restore(s,path, i + 1, remain - 1, res);
+                path.remove(path.size() - 1);
+            }
         }
+    }
+
+    public boolean judgeIpSegment(String s, int left, int right) {
+        int len = right - left + 1;
+        if (len > 1 && s.charAt(left) == '0') return false;
+        int res = 0;
+        while (left <= right) {
+            res = res * 10 + s.charAt(left) - '0';
+            left++;
+        }
+        return res >= 0 && res <= 255;
+
     }
 
 }

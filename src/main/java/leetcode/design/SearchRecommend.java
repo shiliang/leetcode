@@ -24,7 +24,7 @@ public class SearchRecommend {
         List<List<String>> res = new ArrayList<>();
         for (int i = 1; i <= searchWord.length(); i++) {
             String word = searchWord.substring(0, i);
-            if (trieTree.search(word) != null) {
+            if (trieTree.search(word)) {
 
             }
         }

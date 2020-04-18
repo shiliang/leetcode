@@ -20,4 +20,12 @@ public class DPSolutionTest {
         int[][] input = {{4,5},{4,6},{6,7},{2,3},{1,1}};
         dpSolution.maxEnvelopes(input);
     }
+
+    @Test
+    public void isMatch() {
+        DPSolution dpSolution = new DPSolution();
+        dpSolution.isMatch("aa", ".*");
+    }
+
+
 }
