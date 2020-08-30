@@ -4,11 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyHashMap<K, V> implements MyMap<K, V> {
+    /*
+        步骤
+        1.常量默认数组的长度，默认装载因子
+        2.创建内部存储的数组
+        3.创建数组需要的实体类型Entry<K, V>
+        4.put方法，重点考虑扩容和冲突问题
+        5.
+     */
 
-    //数组默认初始化长度
+    //默认数组初始化长度
     private static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
 
-    //装载因子
+    //默认装载因子
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     private int defaultInitSize;
@@ -67,7 +75,10 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     @Override
     public V put(K k, V v) {
-        V oldValue = null;
+        /*
+            1.扩容  2.冲突解决
+         */
+        V oldValue = v;
         //是否需要扩容
         if (entryUseSize + 1 >= defaultInitSize * defaultLoadFactor) {
             resize(2 * defaultInitSize);

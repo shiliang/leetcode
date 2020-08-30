@@ -1,8 +1,12 @@
-package concurrency;
+package concurrency.ProducerConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
+/*
+    生产者和消费者问题
+    有多种实现方式
+    https://juejin.im/entry/596343686fb9a06bbd6f888c
+ */
 public class ProducerConsumerInJava {
 
     public static void main(String args[]) {

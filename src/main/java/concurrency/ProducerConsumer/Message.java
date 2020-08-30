@@ -1,4 +1,4 @@
-package concurrency;
+package concurrency.ProducerConsumer;
 
 public class Message {
     private String msg;

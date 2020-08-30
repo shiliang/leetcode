@@ -10,6 +10,7 @@ public class MathAlgoTest {
 
     @Test
     public void sqrt() {
-        mathAlgo.sqrt(2);
+        double res  = mathAlgo.sqrt(2);
+        System.out.println(res);
     }
 }
